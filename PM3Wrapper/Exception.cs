@@ -8,15 +8,42 @@ namespace PM3Wrapper
 {
     public class PM3Exception : Exception
     {
-        internal PM3Exception(string message)
-            : base(message)
+        static PM3Exception()
         {
+            m_ExceptionMap = new Dictionary<ushort, Type>();
+            m_ExceptionMap[55386] = typeof(InvalidPortException);
+            m_ExceptionMap[55413] = typeof(DeviceClosedException);
+            m_ExceptionMap[55434] = typeof(WriteFailedException);       
         }
-    }
 
-    public class CsafeException : PM3Exception
-    {
-        static internal void Validate(ushort error)
+        private enum PM3Error : ushort
+        {
+            None = 0,
+            DeviceClosed = 1,
+            WriteFailed = 2,
+
+            Unknown = ushort.MaxValue
+        }
+
+        static private void Throw(ushort error, StringBuilder name, StringBuilder text)
+        {
+            PM3Exception exception;
+            Type type;
+            if (m_ExceptionMap.TryGetValue(error, out type))
+            {
+                exception = (PM3Exception)Activator.CreateInstance(type, text.ToString());
+            }
+            else
+            {
+                exception = new UnknownPM3Exception(string.Format("{0} [{1}:{2}]", text, name, error));
+            }
+
+            exception.m_Error = error;
+            exception.m_Name = name.ToString();
+            throw exception;
+        }
+
+        static internal void ValidateCsafe(ushort error)
         {
             if (error != 0)
             {
@@ -26,19 +53,11 @@ namespace PM3Wrapper
                 StringBuilder text = new StringBuilder(400);
                 PM3Csafe.tkcmdsetCSAFE_get_error_text(error, text, (ushort)text.Capacity);
 
-                throw new CsafeException(string.Format("{0} : {1}", name, text));
+                Throw(error, name, text);
             }
         }
 
-        private CsafeException(string message)
-            : base(message)
-        {
-        }
-    }
-
-    public class DDIException : PM3Exception
-    {
-        static internal void Validate(ushort error)
+        static internal void ValidateDDI(ushort error)
         {
             if (error != 0)
             {
@@ -48,19 +67,11 @@ namespace PM3Wrapper
                 StringBuilder text = new StringBuilder(400);
                 PM3DDI.tkcmdsetDDI_get_error_text(error, text, (ushort)text.Capacity);
 
-                throw new DDIException(string.Format("{0} : {1}", name, text));
+                Throw(error, name, text);
             }
         }
 
-        private DDIException(string message)
-            : base(message)
-        {
-        }
-    }
-
-    public class USBException : PM3Exception
-    {
-        static internal void Validate(ushort error)
+        static internal void ValidateUSB(ushort error)
         {
             if (error != 0)
             {
@@ -70,13 +81,17 @@ namespace PM3Wrapper
                 StringBuilder text = new StringBuilder(400);
                 PM3USB.tkcmdsetUSB_get_error_text(error, text, (ushort)text.Capacity);
 
-                throw new USBException(string.Format("{0} : {1}", name, text));
+                Throw(error, name, text);
             }
         }
 
-        private USBException(string message)
+        internal PM3Exception(string message)
             : base(message)
         {
         }
+
+        private static Dictionary<ushort, Type> m_ExceptionMap;
+        private ushort m_Error;
+        private string m_Name;
     }
 }

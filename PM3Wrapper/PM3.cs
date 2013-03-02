@@ -19,23 +19,23 @@ namespace PM3Wrapper
             ushort error;
 
             error = PM3DDI.tkcmdsetDDI_init();
-            DDIException.Validate(error);
+            PM3Exception.ValidateDDI(error);
 
             error = PM3Csafe.tkcmdsetCSAFE_init_protocol(1000);
-            CsafeException.Validate(error);
+            PM3Exception.ValidateCsafe(error);
         }
 
         public void Stop()
         {
             ushort error = PM3DDI.tkcmdsetDDI_shutdown_all();
-            DDIException.Validate(error);
+            PM3Exception.ValidateDDI(error);
         }
 
         public int DiscoverUnits()
         {
             ushort numUnits;
             ushort error = PM3DDI.tkcmdsetDDI_discover_pm3s(s_ProductName, 0, out numUnits);
-            DDIException.Validate(error);
+            PM3Exception.ValidateDDI(error);
             return numUnits;
         }
 
@@ -45,15 +45,15 @@ namespace PM3Wrapper
 
             StringBuilder hwVersion = new StringBuilder(20);
             error = PM3DDI.tkcmdsetDDI_hw_version((ushort)port, hwVersion, (ushort)hwVersion.Capacity);
-            DDIException.Validate(error);
+            PM3Exception.ValidateDDI(error);
 
             StringBuilder fwVersion = new StringBuilder(20);
             error = PM3DDI.tkcmdsetDDI_fw_version((ushort)port, fwVersion, (ushort)fwVersion.Capacity);
-            DDIException.Validate(error);
+            PM3Exception.ValidateDDI(error);
 
             StringBuilder serialNumber = new StringBuilder(16);
             error = PM3DDI.tkcmdsetDDI_serial_number((ushort)port, serialNumber, (byte)serialNumber.Capacity);
-            DDIException.Validate(error);
+            PM3Exception.ValidateDDI(error);
 
             UnitInfo info = new UnitInfo();
             info.hwVersion = hwVersion.ToString();
@@ -67,7 +67,7 @@ namespace PM3Wrapper
             ushort tmpRspDataCount = (ushort)rspDataCount;
             ushort error = PM3Csafe.tkcmdsetCSAFE_command((ushort)port, (ushort)cmdDataCount, cmdData, ref tmpRspDataCount, rspData);
             rspDataCount = tmpRspDataCount;
-            CsafeException.Validate(error);
+            PM3Exception.ValidateCsafe(error);
         }
     }
 }
