@@ -48,10 +48,12 @@
     <Compile Include="Commands\WorkoutStateCommand.cs" />
     <Compile Include="Commands\WorkTimeCommand.cs" />
     <Compile Include="Comms\Commander.cs" />
+    <Compile Include="Comms\CommandSet.cs" />
     <Compile Include="Comms\CommandWriter.cs" />
     <Compile Include="Comms\Connection.cs" />
     <Compile Include="Comms\ResponseReader.cs" />
     <Compile Include="CSAFE.cs" />
+    <Compile Include="InternalException.cs" />
     <Compile Include="Monitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Enums.cs" />

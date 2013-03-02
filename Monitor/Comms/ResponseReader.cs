@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,7 +30,7 @@ namespace Monitor.Comms
         {
             if (m_Position >= m_Size)
             {
-                throw new EndOfStreamException("Read past end of response buffer");
+                throw new BufferExceededException("Attempted to read past end of response buffer.");
             }
             return m_Buffer[m_Position++];
         }

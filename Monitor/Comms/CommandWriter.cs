@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,7 +26,7 @@ namespace Monitor.Comms
         {
             if (m_Size >= m_Buffer.Length)
             {
-                throw new EndOfStreamException("Write past end of command buffer");
+                throw new BufferExceededException("Attempted to write past end of command buffer.");
             }
             m_Buffer[m_Size++] = val;
         }

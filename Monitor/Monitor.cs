@@ -26,13 +26,14 @@ namespace Monitor
                 StrokeStateCommand strokeState = new StrokeStateCommand();
                 WorkoutStateCommand workoutState = new WorkoutStateCommand();
 
-                m_Commander.Add(workDistance);
-                m_Commander.Add(workTime);
-                m_Commander.Add(strokeState);
-                m_Commander.Add(workoutState);
-                m_Commander.Prepare();
+                CommandSet cmdSet = new CommandSet();
+                cmdSet.Add(workDistance);
+                cmdSet.Add(workTime);
+                cmdSet.Add(strokeState);
+                cmdSet.Add(workoutState);
+                cmdSet.Prepare();
 
-                if (m_Commander.Send())
+                if (m_Commander.Send(cmdSet))
                 {
                     m_State.WorkDistance = workDistance.Metres;
                     m_State.WorkTime = workTime.Seconds;
@@ -41,6 +42,10 @@ namespace Monitor
                 }
 
                 m_Connection.Close();
+            }
+            else
+            {
+                m_State.Connected = false;
             }
         }
 
