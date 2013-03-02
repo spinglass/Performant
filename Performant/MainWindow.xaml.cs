@@ -23,11 +23,18 @@ namespace Performant
         public MainWindow()
         {
             InitializeComponent();
+
+            m_Monitor = new Monitor.Monitor();
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            m_Monitor = new Monitor.Monitor();
+            m_Monitor.Start();
+        }
+
+        private void OnClosed(object sender, EventArgs e)
+        {
+            m_Monitor.Stop();
         }
 
         private Monitor.Monitor m_Monitor;

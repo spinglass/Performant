@@ -3,8 +3,10 @@ using Monitor.Comms;
 using PM3Wrapper;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Monitor
@@ -17,40 +19,105 @@ namespace Monitor
             m_Commander = new Commander(m_Connection);
             m_State = new State();
 
-            if (m_Connection.Open())
+            m_Quit = false;
+            m_Thread = new Thread(ThreadProc);
+        }
+
+        public void Start()
+        {
+            m_Thread.Start();
+        }
+
+        public void Stop()
+        {
+            m_Quit = true;
+            m_Thread.Join();
+        }
+
+        private void Send()
+        {
+            CommandSet cmdSet = new CommandSet();
+            cmdSet.Add(m_WorkDistance);
+            cmdSet.Add(m_WorkTime);
+            cmdSet.Add(m_StrokeState);
+            cmdSet.Add(m_WorkoutState);
+            cmdSet.Prepare();
+
+            if (m_Commander.Send(cmdSet))
             {
-                m_State.Connected = true;
-
-                WorkDistanceCommand workDistance = new WorkDistanceCommand();
-                WorkTimeCommand workTime = new WorkTimeCommand();
-                StrokeStateCommand strokeState = new StrokeStateCommand();
-                WorkoutStateCommand workoutState = new WorkoutStateCommand();
-
-                CommandSet cmdSet = new CommandSet();
-                cmdSet.Add(workDistance);
-                cmdSet.Add(workTime);
-                cmdSet.Add(strokeState);
-                cmdSet.Add(workoutState);
-                cmdSet.Prepare();
-
-                if (m_Commander.Send(cmdSet))
-                {
-                    m_State.WorkDistance = workDistance.Metres;
-                    m_State.WorkTime = workTime.Seconds;
-                    m_State.StrokeState = strokeState.StrokeState;
-                    m_State.WorkoutState = workoutState.WorkoutState;
-                }
-
-                m_Connection.Close();
-            }
-            else
-            {
-                m_State.Connected = false;
+                m_State.WorkDistance = m_WorkDistance.Metres;
+                m_State.WorkTime = m_WorkTime.Seconds;
+                m_State.StrokeState = m_StrokeState.StrokeState;
+                m_State.WorkoutState = m_WorkoutState.WorkoutState;
             }
         }
 
+        private void ThreadProc()
+        {
+            while (!m_Quit)
+            {
+                switch (m_ConnectionState)
+                {
+                    case ConnectionState.Idle:
+                        // Attempt to start the connection
+                        if (m_Connection.Open())
+                        {
+                            Debug.WriteLine("Connection: opened");
+                            m_State.Connected = true;
+                        }
+                        break;
+
+                    case ConnectionState.Connected:
+                    case ConnectionState.SendError:
+                        Send();
+
+                        if (m_Connection.IsOpen)
+                        {
+                            if (m_Connection.State == ConnectionState.SendError && m_ConnectionState == ConnectionState.Connected)
+                            {
+                                Debug.WriteLine("Connection: send error");
+                            }
+                        }
+                        else
+                        {
+                            Debug.WriteLine("Connection: lost");
+                            m_State.Connected = false;
+                        }
+                        break;
+
+                    case ConnectionState.Lost:
+                        // Attempt to reconnect
+                        if (m_Connection.Reopen())
+                        {
+                            Debug.WriteLine("Connection: re-opened");
+                            m_State.Connected = true;
+                        }
+                        break;
+                }
+                m_ConnectionState = m_Connection.State;
+
+                Thread.Sleep(10);
+            }
+
+            if (m_Connection.IsOpen)
+            {
+                m_Connection.Close();
+            }
+        }
+
+
         private Connection m_Connection;
+        private ConnectionState m_ConnectionState;
         private Commander m_Commander;
         private State m_State;
+        private Thread m_Thread;
+        private bool m_Quit;
+
+        // Commands
+        private WorkDistanceCommand m_WorkDistance = new WorkDistanceCommand();
+        private WorkTimeCommand m_WorkTime = new WorkTimeCommand();
+        private StrokeStateCommand m_StrokeState = new StrokeStateCommand();
+        private WorkoutStateCommand m_WorkoutState = new WorkoutStateCommand();
+
     }
 }
