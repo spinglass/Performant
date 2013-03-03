@@ -4,7 +4,9 @@
         Title="MainWindow" Height="350" Width="525"
         Loaded="OnLoaded" Closed="OnClosed"
         >
-    <Grid>
-        
-    </Grid>
+    <StackPanel>
+        <Grid Name="ConnectionStatus" Height="20" />
+        <TextBlock Name="Distance" FontSize="48" FontFamily="Verdana" Padding="4" Text="{Binding WorkDistance}" />
+        <TextBlock Name="Time" FontSize="48" FontFamily="Verdana" Padding="4" Text="{Binding WorkTime}" />
+    </StackPanel>
 </Window>

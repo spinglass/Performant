@@ -8,6 +8,11 @@ namespace Monitor
 {
     public class State
     {
+        public State Clone()
+        {
+            return (State)MemberwiseClone();
+        }
+
         public bool Connected = false;
         public uint WorkTime = 0;
         public uint WorkDistance = 0;

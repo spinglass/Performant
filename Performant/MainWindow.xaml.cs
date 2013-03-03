@@ -25,18 +25,28 @@ namespace Performant
             InitializeComponent();
 
             m_Monitor = new Monitor.Monitor();
+            m_StateView = new StateView();
+            m_StateWatcher = new StateWatcher(Dispatcher, m_StateView, m_Monitor);
+
+            DataContext = m_StateView;
         }
+
+        //public StateView State { get { return m_StateView; } }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             m_Monitor.Start();
+            m_StateWatcher.Start();
         }
 
         private void OnClosed(object sender, EventArgs e)
         {
+            m_StateWatcher.Stop();
             m_Monitor.Stop();
         }
 
         private Monitor.Monitor m_Monitor;
+        private StateView m_StateView;
+        private StateWatcher m_StateWatcher;
     }
 }

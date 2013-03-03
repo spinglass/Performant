@@ -21,6 +21,7 @@ namespace Monitor
 
             m_Quit = false;
             m_Thread = new Thread(ThreadProc);
+            m_Thread.Name = "Monitor";
         }
 
         public void Start()
@@ -32,6 +33,16 @@ namespace Monitor
         {
             m_Quit = true;
             m_Thread.Join();
+        }
+
+        public State GetState()
+        {
+            State state;
+            lock (m_State)
+            {
+                state = m_State.Clone();
+            }
+            return state;
         }
 
         private void Send()
@@ -56,43 +67,49 @@ namespace Monitor
         {
             while (!m_Quit)
             {
-                switch (m_ConnectionState)
+                lock (m_State)
                 {
-                    case ConnectionState.Idle:
-                        // Attempt to start the connection
-                        if (m_Connection.Open())
-                        {
-                            Debug.WriteLine("Connection: opened");
-                            m_State.Connected = true;
-                        }
-                        break;
-
-                    case ConnectionState.Connected:
-                    case ConnectionState.SendError:
-                        Send();
-
-                        if (m_Connection.IsOpen)
-                        {
-                            if (m_Connection.State == ConnectionState.SendError && m_ConnectionState == ConnectionState.Connected)
+                    switch (m_ConnectionState)
+                    {
+                        case ConnectionState.Idle:
+                            // Attempt to start the connection
+                            if (m_Connection.Open())
                             {
-                                Debug.WriteLine("Connection: send error");
-                            }
-                        }
-                        else
-                        {
-                            Debug.WriteLine("Connection: lost");
-                            m_State.Connected = false;
-                        }
-                        break;
+                                Debug.WriteLine("Connection: opened");
 
-                    case ConnectionState.Lost:
-                        // Attempt to reconnect
-                        if (m_Connection.Reopen())
-                        {
-                            Debug.WriteLine("Connection: re-opened");
-                            m_State.Connected = true;
-                        }
-                        break;
+                                m_State.Connected = true;
+                            }
+                            break;
+
+                        case ConnectionState.Connected:
+                        case ConnectionState.SendError:
+                            Send();
+
+                            if (m_Connection.IsOpen)
+                            {
+                                if (m_Connection.State == ConnectionState.SendError && m_ConnectionState == ConnectionState.Connected)
+                                {
+                                    Debug.WriteLine("Connection: send error");
+                                }
+                            }
+                            else
+                            {
+                                Debug.WriteLine("Connection: lost");
+
+                                m_State.Connected = false;
+                            }
+                            break;
+
+                        case ConnectionState.Lost:
+                            // Attempt to reconnect
+                            if (m_Connection.Reopen())
+                            {
+                                Debug.WriteLine("Connection: re-opened");
+
+                                m_State.Connected = true;
+                            }
+                            break;
+                    }
                 }
                 m_ConnectionState = m_Connection.State;
 
@@ -104,7 +121,6 @@ namespace Monitor
                 m_Connection.Close();
             }
         }
-
 
         private Connection m_Connection;
         private ConnectionState m_ConnectionState;
@@ -118,6 +134,5 @@ namespace Monitor
         private WorkTimeCommand m_WorkTime = new WorkTimeCommand();
         private StrokeStateCommand m_StrokeState = new StrokeStateCommand();
         private WorkoutStateCommand m_WorkoutState = new WorkoutStateCommand();
-
     }
 }
