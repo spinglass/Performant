@@ -16,8 +16,8 @@ namespace Monitor.Commands
 
         override protected void ReadInternal(ResponseReader reader)
         {
-            uint val = reader.ReadByte();
-            StrokeState = Enum.IsDefined(typeof(StrokeState), val) ? (StrokeState)val : StrokeState.Unknown;
+            StrokeState val = (StrokeState)reader.ReadByte();
+            StrokeState = Enum.IsDefined(typeof(StrokeState), val) ? val : StrokeState.Unknown;
         }
 
         public StrokeState StrokeState { get; private set; }

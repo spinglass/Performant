@@ -16,8 +16,8 @@ namespace Monitor.Commands
 
         override protected void ReadInternal(ResponseReader reader)
         {
-            uint val = reader.ReadByte();
-            WorkoutType = Enum.IsDefined(typeof(WorkoutType), val) ? (WorkoutType)val : WorkoutType.Unknown;
+            WorkoutType val = (WorkoutType)reader.ReadByte();
+            WorkoutType = Enum.IsDefined(typeof(WorkoutType), val) ? val : WorkoutType.Unknown;
         }
 
         public WorkoutType WorkoutType { get; private set; }
