@@ -54,12 +54,24 @@ namespace Monitor
         SETHORIZONTAL_CMD = 0x21,
         SETPROGRAM_CMD = 0x24,
         SETTARGETHR_CMD = 0x30,
-        PM_GET_WORKDISTANCE = 0xA3,
-        PM_GET_WORKTIME = 0xA0,
-        PM_SET_SPLITDURATION = 0x05,
-        PM_GET_FORCEPLOTDATA = 0x6B,
+        UNITS_METER = 0x24,
+
+        // PM3 short commands
+        PM_GET_WORKOUTTYPE = 0x89,
         PM_GET_DRAGFACTOR = 0xC1,
         PM_GET_STROKESTATE = 0xBF,
-        UNITS_METER = 0x24
+        PM_GET_WORKTIME = 0xA0,
+        PM_GET_WORKDISTANCE = 0xA3,
+        PM_GET_ERRORVALUE2 = 0xC9,
+        PM_GET_WORKOUTSTATE = 0x8D,
+        PM_GET_WORKOUTINTERVALCOUNT = 0x9F,
+        PM_GET_INTERVALTYPE = 0x8E,
+        PM_GET_RESTTIME = 0xCF,
+
+        // PM3 long commands
+        PM_SET_SPLITDURATION  = 0x05,
+        PM_GET_FORCEPLOTDATA = 0x6B,
+        PM_SET_SCREENERRORMODE = 0x27,
+        PM_GET_HEARTBEATDATA = 0x6C,
     }
 }

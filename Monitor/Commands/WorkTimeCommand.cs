@@ -10,7 +10,7 @@ namespace Monitor.Commands
     class WorkTimeCommand : PM3Command
     {
         public WorkTimeCommand()
-            : base(0xA0, 5)
+            : base(CSAFE.PM_GET_WORKTIME, 5)
         {
         }
 

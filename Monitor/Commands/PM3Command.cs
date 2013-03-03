@@ -8,7 +8,7 @@ namespace Monitor.Commands
 {
     abstract class PM3Command : Command
     {
-        public PM3Command(uint id, uint rspSize)
+        public PM3Command(CSAFE id, uint rspSize)
             : base(id, rspSize)
         {
         }

@@ -11,7 +11,7 @@ namespace Monitor.Commands
     {
         abstract protected void ReadInternal(ResponseReader reader);
 
-        public Command(uint id, uint rspSize)
+        public Command(CSAFE id, uint rspSize)
         {
             m_Id = id;
             m_RspSize = rspSize;
@@ -19,18 +19,18 @@ namespace Monitor.Commands
 
         public void Write(CommandWriter writer)
         {
-            writer.WriteByte(m_Id);
+            writer.WriteByte((uint)m_Id);
         }
 
         public void Read(ResponseReader reader)
         {
-            if (reader.ReadByte() == m_Id && reader.ReadByte() == m_RspSize)
+            if (reader.ReadByte() == (uint)m_Id && reader.ReadByte() == m_RspSize)
             {
                 ReadInternal(reader);
             }
         }
 
-        private uint m_Id;
+        private CSAFE m_Id;
         private uint m_RspSize;
     }
 }

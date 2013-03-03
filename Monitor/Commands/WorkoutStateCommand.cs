@@ -10,7 +10,7 @@ namespace Monitor.Commands
     class WorkoutStateCommand : PM3Command
     {
         public WorkoutStateCommand()
-            : base(0x8D, 1)
+            : base(CSAFE.PM_GET_WORKOUTSTATE, 1)
         {
         }
 

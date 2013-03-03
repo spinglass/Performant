@@ -10,7 +10,7 @@ namespace Monitor.Commands
     class WorkDistanceCommand : PM3Command
     {
         public WorkDistanceCommand()
-            : base(0xA3, 5)
+            : base(CSAFE.PM_GET_WORKDISTANCE, 5)
         {
         }
 

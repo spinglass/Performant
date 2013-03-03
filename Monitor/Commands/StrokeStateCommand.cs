@@ -10,7 +10,7 @@ namespace Monitor.Commands
     class StrokeStateCommand : PM3Command
     {
         public StrokeStateCommand()
-            : base(0xBF, 1)
+            : base(CSAFE.PM_GET_STROKESTATE, 1)
         {
         }
 
