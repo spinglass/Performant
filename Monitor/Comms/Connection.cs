@@ -8,14 +8,6 @@ using System.Threading.Tasks;
 
 namespace Monitor.Comms
 {
-    public enum ConnectionState
-    {
-        Idle,
-        Connected,
-        SendError,
-        Lost,
-    }
-
     class Connection
     {
         public Connection()
@@ -113,6 +105,11 @@ namespace Monitor.Comms
                     return true;
                 }
                 catch (WriteFailedException e)
+                {
+                    Debug.WriteLine(string.Format("[Connection.SendCSAFECommand] {0}", e.Message));
+                    m_State = ConnectionState.SendError;
+                }
+                catch (ReadTimeoutException e)
                 {
                     Debug.WriteLine(string.Format("[Connection.SendCSAFECommand] {0}", e.Message));
                     m_State = ConnectionState.SendError;

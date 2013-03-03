@@ -38,13 +38,14 @@ namespace Performant
             {
                 m_Dispatcher.Invoke(DispatcherPriority.Normal, m_Update);
 
-                Thread.Sleep(250);
+                Thread.Sleep(100);
             }
         }
 
         private void Update()
         {
             State state = m_Monitor.GetState();
+            m_StateView.ConnectionState = state.ConnectionState;
             m_StateView.WorkDistance = state.WorkDistance;
             m_StateView.WorkTime = state.WorkTime;
             m_StateView.StrokeState = state.StrokeState;

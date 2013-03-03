@@ -10,8 +10,16 @@ namespace Performant
 {
     public class StateView : DependencyObject
     {
+        public static readonly DependencyProperty ConnectionStateProperty = DependencyProperty.Register(
+          "ConnectionState", typeof(ConnectionState), typeof(StateView), new PropertyMetadata(ConnectionState.Idle));
+        public ConnectionState ConnectionState
+        {
+            get { return (ConnectionState)GetValue(ConnectionStateProperty); }
+            set { SetValue(ConnectionStateProperty, value); }
+        }
+
         public static readonly DependencyProperty WorkTimeProperty = DependencyProperty.Register(
-          "WorkTime", typeof(Time), typeof(StateView));
+          "WorkTime", typeof(Time), typeof(StateView), new PropertyMetadata(new Time()));
         public Time WorkTime
         {
             get { return (Time)GetValue(WorkTimeProperty); }
@@ -19,7 +27,7 @@ namespace Performant
         }
 
         public static readonly DependencyProperty WorkDistanceProperty = DependencyProperty.Register(
-          "WorkDistance", typeof(Distance), typeof(StateView));
+          "WorkDistance", typeof(Distance), typeof(StateView), new PropertyMetadata(new Distance()));
         public Distance WorkDistance
         {
             get { return (Distance)GetValue(WorkDistanceProperty); }

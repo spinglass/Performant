@@ -1,12 +1,17 @@
 ﻿<Window x:Class="Performant.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525"
-        Loaded="OnLoaded" Closed="OnClosed"
+        Title="MainWindow" Height="400" Width="525"
+        Loaded="OnLoaded" Closing="OnClosing"
         >
     <StackPanel>
+        <TextBlock FontSize="24" FontFamily="Verdana" Padding="4" Text="{Binding ConnectionState}" />
         <Grid Name="ConnectionStatus" Height="20" />
-        <TextBlock Name="Distance" FontSize="48" FontFamily="Verdana" Padding="4" Text="{Binding WorkDistance}" />
-        <TextBlock Name="Time" FontSize="48" FontFamily="Verdana" Padding="4" Text="{Binding WorkTime}" />
+        <TextBlock FontFamily="Verdana" Padding="2">Work Distance</TextBlock>
+        <TextBlock FontSize="48" FontFamily="Verdana" Padding="4" Text="{Binding WorkDistance}" />
+        <TextBlock FontSize="48" FontFamily="Verdana" Padding="4" Text="{Binding WorkDistance.Metres}" />
+        <TextBlock FontFamily="Verdana" Padding="2">Work Time</TextBlock>
+        <TextBlock FontSize="48" FontFamily="Verdana" Padding="4" Text="{Binding WorkTime}" />
+        <TextBlock FontSize="48" FontFamily="Verdana" Padding="4" Text="{Binding WorkTime.Concise}" />
     </StackPanel>
 </Window>

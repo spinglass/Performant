@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Monitor
 {
-    public class Time
+    public struct Time
     {
         public uint TotalSeconds { get; set; }
         public uint Hundreths { get; set; }
@@ -32,15 +32,23 @@ namespace Monitor
 
         public override string ToString()
         {
-            if (Hours > 0)
+            return string.Format("{0}:{1:D02}:{2:D02}.{3:D02}", Hours, Minutes, Seconds, Hundreths);
+        }
+
+        public string Concise
+        {
+            get
             {
-                return string.Format("{0}:{1:D02}:{2:D02}", Hours, Minutes, Seconds);
+                if (Hours > 0)
+                {
+                    return string.Format("{0}:{1:D02}:{2:D02}", Hours, Minutes, Seconds);
+                }
+                else if (Minutes > 0)
+                {
+                    return string.Format("{0}:{1:D02}", Minutes, Seconds);
+                }
+                return string.Format(":{0:D02}", Seconds);
             }
-            else if (Minutes > 0)
-            {
-                return string.Format("{0}:{1:D02}", Minutes, Seconds);
-            }
-            return string.Format(":{0:D02}", Seconds);
         }
     }
 }

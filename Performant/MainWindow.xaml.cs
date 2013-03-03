@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,15 +32,13 @@ namespace Performant
             DataContext = m_StateView;
         }
 
-        //public StateView State { get { return m_StateView; } }
-
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             m_Monitor.Start();
             m_StateWatcher.Start();
         }
 
-        private void OnClosed(object sender, EventArgs e)
+        private void OnClosing(object sender, CancelEventArgs e)
         {
             m_StateWatcher.Stop();
             m_Monitor.Stop();

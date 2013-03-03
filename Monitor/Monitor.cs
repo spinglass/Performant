@@ -77,7 +77,7 @@ namespace Monitor
                             {
                                 Debug.WriteLine("Connection: opened");
 
-                                m_State.Connected = true;
+                                m_State.ConnectionState = m_Connection.State;
                             }
                             break;
 
@@ -87,16 +87,21 @@ namespace Monitor
 
                             if (m_Connection.IsOpen)
                             {
-                                if (m_Connection.State == ConnectionState.SendError && m_ConnectionState == ConnectionState.Connected)
+                                if (m_Connection.State != m_ConnectionState)
                                 {
-                                    Debug.WriteLine("Connection: send error");
+                                    if (m_Connection.State == ConnectionState.SendError)
+                                    {
+                                        Debug.WriteLine("Connection: send error");
+                                    }
+
+                                    m_State.ConnectionState = m_Connection.State;
                                 }
                             }
                             else
                             {
                                 Debug.WriteLine("Connection: lost");
 
-                                m_State.Connected = false;
+                                m_State.ConnectionState = m_Connection.State;
                             }
                             break;
 
@@ -106,7 +111,7 @@ namespace Monitor
                             {
                                 Debug.WriteLine("Connection: re-opened");
 
-                                m_State.Connected = true;
+                                m_State.ConnectionState = m_Connection.State;
                             }
                             break;
                     }

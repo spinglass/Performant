@@ -9,16 +9,11 @@ namespace Monitor
     public struct Distance
     {
         public uint Metres { get; set; }
-        public uint Centimetres { get; set; }
-
-        public uint RoundedMetres
-        {
-            get { return (Centimetres < 50) ? Metres : Metres + 1; }
-        }
+        public uint Tenths { get; set; }
 
         public override string ToString()
         {
-           return string.Format("{0}.{1:D02}", Metres, Centimetres);
+            return string.Format("{0}.{1}", Metres, Tenths);
         }
     }
 }

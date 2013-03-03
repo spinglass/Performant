@@ -13,7 +13,7 @@ namespace Monitor
             return (State)MemberwiseClone();
         }
 
-        public bool Connected = false;
+        public ConnectionState ConnectionState = ConnectionState.Idle;
         public Time WorkTime = new Time();
         public Distance WorkDistance = new Distance();
         public WorkoutState WorkoutState = WorkoutState.Unknown;
