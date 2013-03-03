@@ -12,15 +12,17 @@ namespace Monitor.Commands
         public WorkTimeCommand()
             : base(CSAFE.PM_GET_WORKTIME, 5)
         {
+            m_Time = new Time();
         }
 
         override protected void ReadInternal(ResponseReader reader)
         {
-            Seconds = reader.ReadUInt() / 100;
-            Hundreths = reader.ReadByte();
+            m_Time.TotalSeconds = reader.ReadUInt() / 100;
+            m_Time.Hundreths = reader.ReadByte();
         }
 
-        public uint Seconds { get; private set; }
-        public uint Hundreths { get; private set; }
+        public Time WorkTime { get { return m_Time; } }
+
+        private Time m_Time;
     }
 }

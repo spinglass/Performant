@@ -11,18 +11,18 @@ namespace Performant
     public class StateView : DependencyObject
     {
         public static readonly DependencyProperty WorkTimeProperty = DependencyProperty.Register(
-          "WorkTime", typeof(uint), typeof(StateView), new PropertyMetadata(0u));
-        public uint WorkTime
+          "WorkTime", typeof(Time), typeof(StateView));
+        public Time WorkTime
         {
-            get { return (uint)GetValue(WorkTimeProperty); }
+            get { return (Time)GetValue(WorkTimeProperty); }
             set { SetValue(WorkTimeProperty, value); }
         }
 
         public static readonly DependencyProperty WorkDistanceProperty = DependencyProperty.Register(
-          "WorkDistance", typeof(uint), typeof(StateView), new PropertyMetadata(0u));
-        public uint WorkDistance
+          "WorkDistance", typeof(Distance), typeof(StateView));
+        public Distance WorkDistance
         {
-            get { return (uint)GetValue(WorkDistanceProperty); }
+            get { return (Distance)GetValue(WorkDistanceProperty); }
             set { SetValue(WorkDistanceProperty, value); }
         }
 

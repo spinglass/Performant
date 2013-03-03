@@ -12,15 +12,17 @@ namespace Monitor.Commands
         public WorkDistanceCommand()
             : base(CSAFE.PM_GET_WORKDISTANCE, 5)
         {
+            m_Distance = new Distance();
         }
 
         override protected void ReadInternal(ResponseReader reader)
         {
-            Metres = reader.ReadUInt() / 10;
-            Hundreths = reader.ReadByte();
+            m_Distance.Metres = reader.ReadUInt() / 10;
+            m_Distance.Centimetres = reader.ReadByte();
         }
 
-        public uint Metres { get; private set; }
-        public uint Hundreths { get; private set; }
+        public Distance WorkDistance { get { return m_Distance; } }
+
+        private Distance m_Distance;
     }
 }

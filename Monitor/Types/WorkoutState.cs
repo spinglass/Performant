@@ -6,16 +6,6 @@ using System.Threading.Tasks;
 
 namespace Monitor
 {
-    public enum StrokeState : uint
-    {
-        Idle = 0,
-        Catch = 1,
-        Drive = 2,
-        Dwell = 3,
-        Recovery = 4,
-        Unknown,
-    }
-
     public enum WorkoutState : uint
     {
         WaitingToBegin = 0,

@@ -56,8 +56,8 @@ namespace Monitor
 
             if (m_Commander.Send(cmdSet))
             {
-                m_State.WorkDistance = m_WorkDistance.Metres;
-                m_State.WorkTime = m_WorkTime.Seconds;
+                m_State.WorkDistance = m_WorkDistance.WorkDistance;
+                m_State.WorkTime = m_WorkTime.WorkTime;
                 m_State.StrokeState = m_StrokeState.StrokeState;
                 m_State.WorkoutState = m_WorkoutState.WorkoutState;
             }

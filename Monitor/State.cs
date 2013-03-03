@@ -14,8 +14,8 @@ namespace Monitor
         }
 
         public bool Connected = false;
-        public uint WorkTime = 0;
-        public uint WorkDistance = 0;
+        public Time WorkTime = new Time();
+        public Distance WorkDistance = new Distance();
         public WorkoutState WorkoutState = WorkoutState.Unknown;
         public StrokeState StrokeState = StrokeState.Unknown;
     }
