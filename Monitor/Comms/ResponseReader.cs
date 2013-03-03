@@ -35,6 +35,12 @@ namespace Monitor.Comms
             return m_Buffer[m_Position++];
         }
 
+        public uint ReadUShort()
+        {
+            uint val = (ReadByte() << 0) + (ReadByte() << 8);
+            return val;
+        }
+
         public uint ReadUInt()
         {
             uint val = (ReadByte() << 0) + (ReadByte() << 8) + (ReadByte() << 16) + (ReadByte() << 24);

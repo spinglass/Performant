@@ -42,6 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\Csafe\CadenceCommand.cs" />
+    <Compile Include="Commands\Csafe\CaloriesCommand.cs" />
+    <Compile Include="Commands\Csafe\HeartRateCommand.cs" />
+    <Compile Include="Commands\Csafe\PaceCommand.cs" />
+    <Compile Include="Commands\Csafe\PowerCommand.cs" />
     <Compile Include="Commands\PM3\DragFactorCommand.cs" />
     <Compile Include="Commands\PM3\PM3Command.cs" />
     <Compile Include="Commands\PM3\StrokeStateCommand.cs" />
