@@ -42,13 +42,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\Command.cs" />
-    <Compile Include="Commands\DragFactorCommand.cs" />
-    <Compile Include="Commands\PM3Command.cs" />
-    <Compile Include="Commands\StrokeStateCommand.cs" />
-    <Compile Include="Commands\WorkDistanceCommand.cs" />
-    <Compile Include="Commands\WorkoutStateCommand.cs" />
-    <Compile Include="Commands\WorkoutTypeCommand.cs" />
-    <Compile Include="Commands\WorkTimeCommand.cs" />
+    <Compile Include="Commands\PM3\DragFactorCommand.cs" />
+    <Compile Include="Commands\PM3\PM3Command.cs" />
+    <Compile Include="Commands\PM3\StrokeStateCommand.cs" />
+    <Compile Include="Commands\PM3\WorkDistanceCommand.cs" />
+    <Compile Include="Commands\PM3\WorkoutStateCommand.cs" />
+    <Compile Include="Commands\PM3\WorkoutTypeCommand.cs" />
+    <Compile Include="Commands\PM3\WorkTimeCommand.cs" />
     <Compile Include="Comms\Commander.cs" />
     <Compile Include="Comms\CommandSet.cs" />
     <Compile Include="Comms\CommandWriter.cs" />
