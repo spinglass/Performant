@@ -13,7 +13,8 @@ namespace PM3Wrapper
             m_ExceptionMap = new Dictionary<ushort, Type>();
             m_ExceptionMap[55386] = typeof(InvalidPortException);
             m_ExceptionMap[55413] = typeof(DeviceClosedException);
-            m_ExceptionMap[55434] = typeof(WriteFailedException);       
+            m_ExceptionMap[55429] = typeof(ReadTimeoutException);
+            m_ExceptionMap[55434] = typeof(WriteFailedException);
         }
 
         private enum PM3Error : ushort

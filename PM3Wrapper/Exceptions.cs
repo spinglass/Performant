@@ -22,6 +22,14 @@ namespace PM3Wrapper
         }
     }
 
+    public class ReadTimeoutException : PM3Exception
+    {
+        public ReadTimeoutException(string message) :
+            base(message)
+        {
+        }
+    }
+
     public class WriteFailedException : PM3Exception
     {
         public WriteFailedException(string message) :
