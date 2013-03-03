@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Monitor
 {
-    public enum WorkoutState : uint
+    public enum WorkoutState
     {
         WaitingToBegin = 0,
         WorkoutRow = 1,
@@ -22,6 +22,7 @@ namespace Monitor
         WorkoutTerminate = 11,
         WorkoutLogged = 12,
         WorkoutRearm = 13,
-        Unknown
+
+        Unknown,
     }
 }

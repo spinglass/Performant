@@ -42,10 +42,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\DragFactorCommand.cs" />
     <Compile Include="Commands\PM3Command.cs" />
     <Compile Include="Commands\StrokeStateCommand.cs" />
     <Compile Include="Commands\WorkDistanceCommand.cs" />
     <Compile Include="Commands\WorkoutStateCommand.cs" />
+    <Compile Include="Commands\WorkoutTypeCommand.cs" />
     <Compile Include="Commands\WorkTimeCommand.cs" />
     <Compile Include="Comms\Commander.cs" />
     <Compile Include="Comms\CommandSet.cs" />
@@ -62,6 +64,7 @@
     <Compile Include="Types\StrokeState.cs" />
     <Compile Include="Types\Time.cs" />
     <Compile Include="Types\WorkoutState.cs" />
+    <Compile Include="Types\WorkoutType.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PM3Wrapper\PM3Wrapper.csproj">
