@@ -18,12 +18,22 @@ namespace Performant
             set { SetValue(ConnectionStateProperty, value); }
         }
 
-        public static readonly DependencyProperty WorkTimeProperty = DependencyProperty.Register(
-          "WorkTime", typeof(Time), typeof(StateView), new PropertyMetadata(new Time()));
-        public Time WorkTime
+        // PM3 data
+
+        public static readonly DependencyProperty DragFactorProperty = DependencyProperty.Register(
+          "DragFactor", typeof(uint), typeof(StateView), new PropertyMetadata(0u));
+        public uint DragFactor
         {
-            get { return (Time)GetValue(WorkTimeProperty); }
-            set { SetValue(WorkTimeProperty, value); }
+            get { return (uint)GetValue(DragFactorProperty); }
+            set { SetValue(DragFactorProperty, value); }
+        }
+
+        public static readonly DependencyProperty StrokeStateProperty = DependencyProperty.Register(
+          "StrokeState", typeof(StrokeState), typeof(StateView), new PropertyMetadata(StrokeState.Unknown));
+        public StrokeState StrokeState
+        {
+            get { return (StrokeState)GetValue(StrokeStateProperty); }
+            set { SetValue(StrokeStateProperty, value); }
         }
 
         public static readonly DependencyProperty WorkDistanceProperty = DependencyProperty.Register(
@@ -42,12 +52,62 @@ namespace Performant
             set { SetValue(WorkoutStateProperty, value); }
         }
 
-        public static readonly DependencyProperty StrokeStateProperty = DependencyProperty.Register(
-          "StrokeState", typeof(StrokeState), typeof(StateView), new PropertyMetadata(StrokeState.Unknown));
-        public StrokeState StrokeState
+        public static readonly DependencyProperty WorkoutTypeProperty = DependencyProperty.Register(
+          "WorkoutType", typeof(WorkoutType), typeof(StateView), new PropertyMetadata(WorkoutType.Unknown));
+        public WorkoutType WorkoutType
         {
-            get { return (StrokeState)GetValue(StrokeStateProperty); }
-            set { SetValue(StrokeStateProperty, value); }
+            get { return (WorkoutType)GetValue(WorkoutTypeProperty); }
+            set { SetValue(WorkoutTypeProperty, value); }
+        }
+
+        public static readonly DependencyProperty WorkTimeProperty = DependencyProperty.Register(
+          "WorkTime", typeof(Time), typeof(StateView), new PropertyMetadata(new Time()));
+        public Time WorkTime
+        {
+            get { return (Time)GetValue(WorkTimeProperty); }
+            set { SetValue(WorkTimeProperty, value); }
+        }
+
+        // CSAFE data
+
+        public static readonly DependencyProperty CaloriesProperty = DependencyProperty.Register(
+          "Calories", typeof(uint), typeof(StateView), new PropertyMetadata(0u));
+        public uint Calories
+        {
+            get { return (uint)GetValue(CaloriesProperty); }
+            set { SetValue(CaloriesProperty, value); }
+        }
+
+        public static readonly DependencyProperty HeartRateProperty = DependencyProperty.Register(
+          "HeartRate", typeof(uint), typeof(StateView), new PropertyMetadata(0u));
+        public uint HeartRate
+        {
+            get { return (uint)GetValue(HeartRateProperty); }
+            set { SetValue(HeartRateProperty, value); }
+        }
+
+        public static readonly DependencyProperty PowerProperty = DependencyProperty.Register(
+          "Power", typeof(uint), typeof(StateView), new PropertyMetadata(0u));
+        public uint Power
+        {
+            get { return (uint)GetValue(PowerProperty); }
+            set { SetValue(PowerProperty, value); }
+        }
+
+        public static readonly DependencyProperty StrokePaceProperty = DependencyProperty.Register(
+          "StrokePace", typeof(uint), typeof(StateView), new PropertyMetadata(0u));
+        public uint StrokePace
+        {
+            get { return (uint)GetValue(StrokePaceProperty); }
+            set { SetValue(StrokePaceProperty, value); }
+        }
+
+        public static readonly DependencyProperty StrokeRateProperty = DependencyProperty.Register(
+          "StrokeRate", typeof(uint), typeof(StateView), new PropertyMetadata(0u));
+        public uint StrokeRate
+        {
+            get { return (uint)GetValue(StrokeRateProperty); }
+            set { SetValue(StrokeRateProperty, value); }
         }
     }
 }

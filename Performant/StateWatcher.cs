@@ -69,10 +69,21 @@ namespace Performant
             // Build the mapping from state to view
             m_Updaters = new List<Updater>();
             m_Updaters.Add(new Updater((State state) => state.ConnectionState, (Object value) => m_View.ConnectionState = (ConnectionState)value));
-            m_Updaters.Add(new Updater((State state) => state.WorkDistance, (Object value) => m_View.WorkDistance = (Distance)value));
-            m_Updaters.Add(new Updater((State state) => state.WorkTime, (Object value) => m_View.WorkTime = (Time)value));
+
+            // PM3 data
+            m_Updaters.Add(new Updater((State state) => state.DragFactor, (Object value) => m_View.DragFactor = (uint)value));
             m_Updaters.Add(new Updater((State state) => state.StrokeState, (Object value) => m_View.StrokeState = (StrokeState)value));
+            m_Updaters.Add(new Updater((State state) => state.WorkDistance, (Object value) => m_View.WorkDistance = (Distance)value));
             m_Updaters.Add(new Updater((State state) => state.WorkoutState, (Object value) => m_View.WorkoutState = (WorkoutState)value));
+            m_Updaters.Add(new Updater((State state) => state.WorkoutType, (Object value) => m_View.WorkoutType = (WorkoutType)value));
+            m_Updaters.Add(new Updater((State state) => state.WorkTime, (Object value) => m_View.WorkTime = (Time)value));
+
+            // CSAFE data
+            m_Updaters.Add(new Updater((State state) => state.Calories, (Object value) => m_View.Calories = (uint)value));
+            m_Updaters.Add(new Updater((State state) => state.HeartRate, (Object value) => m_View.HeartRate = (uint)value));
+            m_Updaters.Add(new Updater((State state) => state.Power, (Object value) => m_View.Power = (uint)value));
+            m_Updaters.Add(new Updater((State state) => state.StrokePace, (Object value) => m_View.StrokePace = (uint)value));
+            m_Updaters.Add(new Updater((State state) => state.StrokeRate, (Object value) => m_View.StrokeRate = (uint)value));
         }
 
         private void ThreadProc()
