@@ -49,6 +49,7 @@ namespace Performant
             m_Thread = new Thread(ThreadProc);
             m_Thread.Name = "StateWatcher";
             m_Update = new Action(Update);
+            m_InvokeTimeout = new TimeSpan(1000000); // 100 ms
 
             CreateUpdaters();
         }
@@ -90,7 +91,7 @@ namespace Performant
         {
             while (!m_Quit)
             {
-                m_Dispatcher.Invoke(DispatcherPriority.Normal, m_Update);
+                m_Dispatcher.Invoke(DispatcherPriority.Normal, m_InvokeTimeout, m_Update);
 
                 Thread.Sleep(100);
             }
@@ -115,5 +116,6 @@ namespace Performant
         private Action m_Update;
         private bool m_Quit;
         private List<Updater> m_Updaters;
+        private TimeSpan m_InvokeTimeout;
     }
 }
