@@ -16,10 +16,14 @@ namespace Monitor.Commands
 
         override protected void ReadInternal(ResponseReader reader)
         {
-            StrokePace = reader.ReadUShort();
+            uint pace = reader.ReadUShort();
             reader.ReadByte(); // Expecting 0x39 - Seconds per kilometer
+
+            m_StrokePace.TotalSeconds = pace / 2;
         }
 
-        public uint StrokePace { get; private set; }
+        public Time StrokePace { get { return m_StrokePace; } }
+
+        private Time m_StrokePace;
     }
 }

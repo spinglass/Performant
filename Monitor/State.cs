@@ -27,7 +27,7 @@ namespace Monitor
         public uint Calories = 0;
         public uint HeartRate = 0;
         public uint Power = 0;
-        public uint StrokePace = 0;
+        public Time StrokePace = new Time();
         public uint StrokeRate = 0;
     }
 }

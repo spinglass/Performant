@@ -95,10 +95,10 @@ namespace Performant
         }
 
         public static readonly DependencyProperty StrokePaceProperty = DependencyProperty.Register(
-          "StrokePace", typeof(uint), typeof(StateView), new PropertyMetadata(0u));
-        public uint StrokePace
+          "StrokePace", typeof(Time), typeof(StateView), new PropertyMetadata(new Time()));
+        public Time StrokePace
         {
-            get { return (uint)GetValue(StrokePaceProperty); }
+            get { return (Time)GetValue(StrokePaceProperty); }
             set { SetValue(StrokePaceProperty, value); }
         }
 
