@@ -6,6 +6,7 @@
         Loaded="OnLoaded" Closing="OnClosing" ResizeMode="NoResize"
         >
     <Window.Resources>
+        <p:ConnectionStateConverter x:Key="ConnectionStateConverter"/>
         <Style x:Key="BaseText" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Verdana"/>
             <Setter Property="Foreground" Value="#FF40463D"/>
@@ -28,6 +29,8 @@
         <Rectangle Width="392" Height="2" Canvas.Left="4" Canvas.Top="148" />
         <Rectangle Width="2" Height="67" Canvas.Left="232" Canvas.Top="149" />
         <Rectangle Width="392" Height="4" Canvas.Left="4" Canvas.Top="214" />
+
+        <Ellipse Width="16" Height="16" Canvas.Left="4" Canvas.Top="4" Stroke="#FF717C6C" StrokeThickness="2" Fill="{Binding ConnectionState, Converter={StaticResource ConnectionStateConverter}}" />
 
         <TextBlock Style="{StaticResource DataText}" Width="208" Canvas.Left="10" Canvas.Top="4" Text="{Binding WorkTime.Concise}" />
             
