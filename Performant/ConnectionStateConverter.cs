@@ -17,19 +17,8 @@ namespace Performant
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             ConnectionState state = (ConnectionState)value;
-            Color color = (Color)Application.Current.Resources["ColorIdle"];  // default for ConnectionState.Idle
-            switch (state)
-            {
-                case ConnectionState.Connected:
-                    color = (Color)Application.Current.Resources["ColorConnected"];
-                    break;
-                case ConnectionState.SendError:
-                    color = (Color)Application.Current.Resources["ColorSendError"];
-                    break;
-                case ConnectionState.Lost:
-                    color = (Color)Application.Current.Resources["ColorLost"];
-                    break;
-            }
+            string colorName = "Color" + state.ToString();
+            Color color = (Color)Application.Current.Resources[colorName];
             return new SolidColorBrush(color);
         }
 
