@@ -1,37 +1,46 @@
 ﻿<Window x:Class="Performant.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="525" Width="525"
+        xmlns:p="clr-namespace:Performant"
+        Title="MainWindow" Height="444" Width="420" Background="#FFE1F1D6"
         Loaded="OnLoaded" Closing="OnClosing"
         >
-    <StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock FontFamily="Verdana" Padding="2" Width="100" VerticalAlignment="Bottom">Connection</TextBlock>
-            <TextBlock FontSize="24" FontFamily="Verdana" Padding="2" Width="200" TextAlignment="Right" Text="{Binding ConnectionState}" />
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock FontFamily="Verdana" Padding="2" Width="100" VerticalAlignment="Bottom">Workout</TextBlock>
-            <TextBlock FontSize="24" FontFamily="Verdana" Padding="2" Width="200" TextAlignment="Right" Text="{Binding WorkoutState}" />
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock FontFamily="Verdana" Padding="2" Width="100" VerticalAlignment="Bottom">Distance</TextBlock>
-            <TextBlock FontSize="32" FontFamily="Verdana" Padding="2" Width="200" TextAlignment="Right" Text="{Binding WorkDistance.Metres}" />
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock FontFamily="Verdana" Padding="2" Width="100" VerticalAlignment="Bottom">Time</TextBlock>
-            <TextBlock FontSize="32" FontFamily="Verdana" Padding="2" Width="200" TextAlignment="Right" Text="{Binding WorkTime.Concise}" />
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock FontFamily="Verdana" Padding="2" Width="100" VerticalAlignment="Bottom">Pace</TextBlock>
-            <TextBlock FontSize="32" FontFamily="Verdana" Padding="2" Width="200" TextAlignment="Right" Text="{Binding StrokePace.Concise}" />
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock FontFamily="Verdana" Padding="2" Width="100" VerticalAlignment="Bottom">Rate</TextBlock>
-            <TextBlock FontSize="32" FontFamily="Verdana" Padding="2" Width="200" TextAlignment="Right" Text="{Binding StrokeRate}" />
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock FontFamily="Verdana" Padding="2" Width="100" VerticalAlignment="Bottom">Power</TextBlock>
-            <TextBlock FontSize="32" FontFamily="Verdana" Padding="2" Width="200" TextAlignment="Right" Text="{Binding Power}" />
-        </StackPanel>
-    </StackPanel>
+    <Window.Resources>
+        <Style x:Key="BaseText" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Verdana"/>
+            <Setter Property="Foreground" Value="#FF40463D"/>
+            <Setter Property="TextAlignment" Value="Right" />
+        </Style>
+        <Style x:Key="DataText" TargetType="TextBlock" BasedOn="{StaticResource BaseText}">
+            <Setter Property="FontSize" Value="48" />
+            <Setter Property="TextAlignment" Value="Right" />
+        </Style>
+        <Style x:Key="LabelText" TargetType="TextBlock" BasedOn="{StaticResource BaseText}">
+            <Setter Property="FontSize" Value="20" />
+        </Style>
+        <Style TargetType="Rectangle">
+            <Setter Property="Fill" Value="#FF40463D" />
+        </Style>
+    </Window.Resources>
+    <Canvas Margin="2" Width="400" Height="400" Background="#FFA6B999" >
+        <Rectangle Width="392" Height="2" Canvas.Left="4" Canvas.Top="64" />
+        <Rectangle Width="2" Height="60" Canvas.Left="232" Canvas.Top="4" />
+        <Rectangle Width="392" Height="2" Canvas.Left="4" Canvas.Top="148" />
+        <Rectangle Width="2" Height="66" Canvas.Left="232" Canvas.Top="148" />
+        <Rectangle Width="392" Height="4" Canvas.Left="4" Canvas.Top="214" />
+
+        <TextBlock Style="{StaticResource DataText}" Width="208" Canvas.Left="10" Canvas.Top="4" Text="{Binding WorkTime.Concise}" />
+            
+        <TextBlock Style="{StaticResource DataText}" Width="100" Canvas.Left="240" Canvas.Top="4" Text="{Binding StrokeRate}" />
+        <TextBlock Style="{StaticResource LabelText}" Canvas.Left="345" Canvas.Top="32" Text="s/m" />
+            
+        <TextBlock Style="{StaticResource DataText}" FontSize="64" Width="240" Canvas.Left="40" Canvas.Top="68" Text="{Binding StrokePace.Concise}" />
+        <TextBlock Style="{StaticResource LabelText}" Canvas.Left="285" Canvas.Top="112" Text="/500m" />
+
+        <TextBlock Style="{StaticResource DataText}" Width="160" Canvas.Left="40" Canvas.Top="155" Text="{Binding WorkDistance.Metres}" />
+        <TextBlock Style="{StaticResource LabelText}" Canvas.Left="205" Canvas.Top="183" Text="m" />
+
+        <TextBlock Style="{StaticResource DataText}" Width="100" Canvas.Left="240" Canvas.Top="155" Text="{Binding HeartRate}" />
+        <TextBlock Style="{StaticResource LabelText}" Canvas.Left="345" Canvas.Top="183" Text="bpm" />
+    </Canvas>
 </Window>
