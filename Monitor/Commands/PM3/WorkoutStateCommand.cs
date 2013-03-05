@@ -12,6 +12,7 @@ namespace Monitor.Commands
         public WorkoutStateCommand()
             : base(CSAFE.PM_GET_WORKOUTSTATE, 1)
         {
+            WorkoutState = WorkoutState.Unknown;
         }
 
         override protected void ReadInternal(ResponseReader reader)
