@@ -12,6 +12,7 @@ namespace Monitor.Commands
         public WorkoutTypeCommand()
             : base(CSAFE.PM_GET_WORKOUTTYPE, 1)
         {
+            WorkoutType = WorkoutType.Unknown;
         }
 
         override protected void ReadInternal(ResponseReader reader)

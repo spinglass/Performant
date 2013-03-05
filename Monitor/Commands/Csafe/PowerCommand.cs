@@ -12,6 +12,7 @@ namespace Monitor.Commands
         public PowerCommand()
             : base(CSAFE.GETPOWER_CMD, 3)
         {
+            Power = 0;
         }
 
         override protected void ReadInternal(ResponseReader reader)

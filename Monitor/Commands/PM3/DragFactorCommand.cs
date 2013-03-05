@@ -12,6 +12,7 @@ namespace Monitor.Commands
         public DragFactorCommand()
             : base(CSAFE.PM_GET_DRAGFACTOR, 1)
         {
+            DragFactor = 0;
         }
 
         override protected void ReadInternal(ResponseReader reader)

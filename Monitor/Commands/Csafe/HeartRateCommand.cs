@@ -12,6 +12,7 @@ namespace Monitor.Commands
         public HeartRateCommand()
             : base(CSAFE.GETHRCUR_CMD, 1)
         {
+            HeartRate = 0;
         }
 
         override protected void ReadInternal(ResponseReader reader)

@@ -12,6 +12,7 @@ namespace Monitor.Commands
         public CadenceCommand()
             : base(CSAFE.GETCADENCE_CMD, 3)
         {
+            StrokeRate = 0;
         }
 
         override protected void ReadInternal(ResponseReader reader)

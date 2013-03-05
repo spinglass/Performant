@@ -12,6 +12,7 @@ namespace Monitor.Commands
         public StrokeStateCommand()
             : base(CSAFE.PM_GET_STROKESTATE, 1)
         {
+            StrokeState = StrokeState.Unknown;
         }
 
         override protected void ReadInternal(ResponseReader reader)

@@ -12,6 +12,7 @@ namespace Monitor.Commands
         public CaloriesCommand()
             : base(CSAFE.GETCALORIES_CMD, 2)
         {
+            Calories = 0;
         }
 
         override protected void ReadInternal(ResponseReader reader)

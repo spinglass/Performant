@@ -12,6 +12,7 @@ namespace Monitor.Commands
         public PaceCommand()
             : base(CSAFE.GETPACE_CMD, 3)
         {
+            m_StrokePace = new Time();
         }
 
         override protected void ReadInternal(ResponseReader reader)
