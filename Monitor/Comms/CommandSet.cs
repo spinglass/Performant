@@ -107,17 +107,16 @@ namespace Monitor.Comms
                     {
                         cmd.Read(reader);
                     }
-
-                    // Read CSAFE commands
-                    foreach (Command cmd in m_CSAFECommands)
-                    {
-                        cmd.Read(reader);
-                    }
-
-                    // Ensure whole response has been read
-                    success = (reader.Position == reader.Size);
-
                 }
+
+                // Read CSAFE commands
+                foreach (Command cmd in m_CSAFECommands)
+                {
+                    cmd.Read(reader);
+                }
+
+                // Ensure whole response has been read
+                success = (reader.Position == reader.Size);
             }
             catch (BufferExceededException e)
             {
