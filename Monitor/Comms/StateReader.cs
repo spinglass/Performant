@@ -81,7 +81,12 @@ namespace Monitor.Comms
 
                 if (m_UpdateCount % 50 == 0)
                 {
-                    success = m_Commander.Send(m_PerWorkoutCommands);
+                    success = m_Commander.Send(m_Idle2HzCommands);
+                }
+
+                if (success && m_UpdateCount % 100 == 0)
+                {
+                    success = m_Commander.Send(m_Idle1HzCommands);
                 }
             }
 
@@ -104,7 +109,7 @@ namespace Monitor.Comms
             m_WorkoutTypeCommand = new WorkoutTypeCommand();
             m_WorkTimeCommand = new WorkTimeCommand();
 
-            // Command sets
+            // Workout command sets
 
             m_100HzCommands = new CommandSet();
             m_100HzCommands.Add(m_StrokeStateCommand);
@@ -128,10 +133,14 @@ namespace Monitor.Comms
             m_1HzCommands.Add(m_HeartRateCommand);
             m_1HzCommands.Prepare();
 
-            m_PerWorkoutCommands = new CommandSet();
-            m_PerWorkoutCommands.Add(m_WorkoutTypeCommand);
-            m_PerWorkoutCommands.Add(m_WorkoutStateCommand);
-            m_PerWorkoutCommands.Prepare();
+            // Idle command sets
+
+            m_Idle2HzCommands = new CommandSet();
+            m_Idle2HzCommands.Add(m_WorkoutTypeCommand);
+            m_Idle2HzCommands.Add(m_WorkoutStateCommand);
+            m_Idle2HzCommands.Prepare();
+
+            m_Idle1HzCommands = m_1HzCommands;
         }
 
         private void UpdateState()
@@ -177,6 +186,7 @@ namespace Monitor.Comms
         private CommandSet m_10HzCommands;
         private CommandSet m_2HzCommands;
         private CommandSet m_1HzCommands;
-        private CommandSet m_PerWorkoutCommands;
+        private CommandSet m_Idle2HzCommands;
+        private CommandSet m_Idle1HzCommands;
     }
 }
