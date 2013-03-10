@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Monitor
+namespace Monitor.Commands
 {
     public enum CSAFE : uint
     {

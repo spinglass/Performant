@@ -62,7 +62,7 @@
     <Compile Include="Comms\Connection.cs" />
     <Compile Include="Comms\ResponseReader.cs" />
     <Compile Include="Comms\StateReader.cs" />
-    <Compile Include="CSAFE.cs" />
+    <Compile Include="Commands\CSAFE.cs" />
     <Compile Include="InternalException.cs" />
     <Compile Include="Monitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
