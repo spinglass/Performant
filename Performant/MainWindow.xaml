@@ -29,6 +29,7 @@
         <Rectangle Width="392" Height="2" Canvas.Left="4" Canvas.Top="148" />
         <Rectangle Width="2" Height="67" Canvas.Left="232" Canvas.Top="149" />
         <Rectangle Width="392" Height="4" Canvas.Left="4" Canvas.Top="214" />
+        <Rectangle Width="2" Height="67" Canvas.Left="232" Canvas.Top="217" />
 
         <Ellipse Width="16" Height="16" Canvas.Left="4" Canvas.Top="4" Stroke="#FF717C6C" StrokeThickness="2" Fill="{Binding ConnectionState, Converter={StaticResource ConnectionStateConverter}}" />
 
@@ -45,5 +46,11 @@
 
         <TextBlock Style="{StaticResource DataText}" Width="100" Canvas.Left="240" Canvas.Top="155" Text="{Binding HeartRate}" />
         <TextBlock Style="{StaticResource LabelText}" Canvas.Left="345" Canvas.Top="183" Text="bpm" />
+
+        <TextBlock Style="{StaticResource DataText}" Width="100" Canvas.Left="84" Canvas.Top="223" Text="{Binding Calories}" />
+        <TextBlock Style="{StaticResource LabelText}" Canvas.Left="189" Canvas.Top="251" Text="cal" />
+
+        <TextBlock Style="{StaticResource DataText}" Width="100" Canvas.Left="240" Canvas.Top="223" Text="{Binding Power}" />
+        <TextBlock Style="{StaticResource LabelText}" Canvas.Left="345" Canvas.Top="251" Text="watt" />
     </Canvas>
 </Window>
