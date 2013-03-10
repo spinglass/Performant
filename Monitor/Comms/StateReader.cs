@@ -99,11 +99,13 @@ namespace Monitor.Comms
 
             m_CadenceCommand = new CadenceCommand();
             m_CaloriesCommand = new CaloriesCommand();
+            m_DistanceCommand = new DistanceCommand();
             m_DragFactorCommand = new DragFactorCommand();
             m_HeartRateCommand = new HeartRateCommand();
             m_PaceCommand = new PaceCommand();
             m_PowerCommand = new PowerCommand();
             m_StrokeStateCommand = new StrokeStateCommand();
+            m_TimeCommand = new TimeCommand();
             m_WorkDistanceCommand = new WorkDistanceCommand();
             m_WorkoutStateCommand = new WorkoutStateCommand();
             m_WorkoutTypeCommand = new WorkoutTypeCommand();
@@ -116,6 +118,8 @@ namespace Monitor.Comms
             m_100HzCommands.Prepare();
 
             m_10HzCommands = new CommandSet();
+            m_10HzCommands.Add(m_DistanceCommand);
+            m_10HzCommands.Add(m_TimeCommand);
             m_10HzCommands.Add(m_WorkDistanceCommand);
             m_10HzCommands.Add(m_WorkTimeCommand);
             m_10HzCommands.Prepare();
@@ -157,10 +161,12 @@ namespace Monitor.Comms
 
                 // CSAFE commands
                 m_State.Calories = m_CaloriesCommand.Calories;
+                m_State.Distance = m_DistanceCommand.Distance;
                 m_State.HeartRate = m_HeartRateCommand.HeartRate;
                 m_State.Power = m_PowerCommand.Power;
                 m_State.StrokePace = m_PaceCommand.StrokePace;
                 m_State.StrokeRate = m_CadenceCommand.StrokeRate;
+                m_State.Time = m_TimeCommand.Time;
             }
         }
 
@@ -171,11 +177,13 @@ namespace Monitor.Comms
         // Commands
         private CadenceCommand m_CadenceCommand;
         private CaloriesCommand m_CaloriesCommand;
+        private DistanceCommand m_DistanceCommand;
         private DragFactorCommand m_DragFactorCommand;
         private HeartRateCommand m_HeartRateCommand;
         private PaceCommand m_PaceCommand;
         private PowerCommand m_PowerCommand;
         private StrokeStateCommand m_StrokeStateCommand;
+        private TimeCommand m_TimeCommand;
         private WorkDistanceCommand m_WorkDistanceCommand;
         private WorkoutStateCommand m_WorkoutStateCommand;
         private WorkoutTypeCommand m_WorkoutTypeCommand;
