@@ -38,7 +38,7 @@
         <TextBlock Style="{StaticResource DataText}" Width="100" Canvas.Left="240" Canvas.Top="4" Text="{Binding StrokeRate}" />
         <TextBlock Style="{StaticResource LabelText}" Canvas.Left="345" Canvas.Top="32" Text="s/m" />
             
-        <TextBlock Style="{StaticResource DataText}" FontSize="64" Width="240" Canvas.Left="40" Canvas.Top="68" Text="{Binding StrokePace.Concise}" />
+        <TextBlock Style="{StaticResource DataText}" FontSize="64" Width="240" Canvas.Left="40" Canvas.Top="68" Text="{Binding Pace.Concise}" />
         <TextBlock Style="{StaticResource LabelText}" Canvas.Left="285" Canvas.Top="112" Text="/500m" />
 
         <TextBlock Style="{StaticResource DataText}" Width="160" Canvas.Left="40" Canvas.Top="155" Text="{Binding WorkDistance.Metres}" />

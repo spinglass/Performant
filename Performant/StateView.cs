@@ -94,12 +94,12 @@ namespace Performant
             set { SetValue(PowerProperty, value); }
         }
 
-        public static readonly DependencyProperty StrokePaceProperty = DependencyProperty.Register(
-          "StrokePace", typeof(Time), typeof(StateView), new PropertyMetadata(new Time()));
-        public Time StrokePace
+        public static readonly DependencyProperty PaceProperty = DependencyProperty.Register(
+          "Pace", typeof(Time), typeof(StateView), new PropertyMetadata(new Time()));
+        public Time Pace
         {
-            get { return (Time)GetValue(StrokePaceProperty); }
-            set { SetValue(StrokePaceProperty, value); }
+            get { return (Time)GetValue(PaceProperty); }
+            set { SetValue(PaceProperty, value); }
         }
 
         public static readonly DependencyProperty StrokeRateProperty = DependencyProperty.Register(

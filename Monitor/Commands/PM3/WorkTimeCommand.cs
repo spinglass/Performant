@@ -17,8 +17,7 @@ namespace Monitor.Commands
 
         override protected void ReadInternal(ResponseReader reader)
         {
-            m_Time.TotalSeconds = reader.ReadUInt() / 100;
-            m_Time.Hundreths = reader.ReadByte();
+            m_Time.TotalHundreths = reader.ReadUInt() + reader.ReadByte();
         }
 
         public Time WorkTime { get { return m_Time; } }

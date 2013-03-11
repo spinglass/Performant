@@ -10,7 +10,7 @@ namespace Monitor.Commands
     class TimeCommand : Command
     {
         public TimeCommand()
-            : base(CSAFE.GETHORIZONTAL_CMD, 3)
+            : base(CSAFE.GETTWORK_CMD, 3)
         {
             m_Time = new Time();
         }
@@ -20,7 +20,7 @@ namespace Monitor.Commands
             uint hours = reader.ReadByte();
             uint minutes = reader.ReadByte();
             uint seconds = reader.ReadByte();
-            m_Time.TotalSeconds = 3600 * hours + 60 * minutes + seconds;
+            m_Time.TotalHundreths = 100 * (3600 * hours + 60 * minutes + seconds);
         }
 
         public Time Time { get { return m_Time; } }

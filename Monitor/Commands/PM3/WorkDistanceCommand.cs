@@ -17,8 +17,7 @@ namespace Monitor.Commands
 
         override protected void ReadInternal(ResponseReader reader)
         {
-            m_Distance.Metres = reader.ReadUInt() / 10;
-            m_Distance.Tenths = reader.ReadByte();
+            m_Distance.TotalTenths = reader.ReadUInt() + reader.ReadByte();
         }
 
         public Distance WorkDistance { get { return m_Distance; } }

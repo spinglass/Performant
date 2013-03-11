@@ -83,7 +83,7 @@ namespace Performant
             m_Updaters.Add(new Updater((State state) => state.Calories, (Object value) => m_View.Calories = (uint)value));
             m_Updaters.Add(new Updater((State state) => state.HeartRate, (Object value) => m_View.HeartRate = (uint)value));
             m_Updaters.Add(new Updater((State state) => state.Power, (Object value) => m_View.Power = (uint)value));
-            m_Updaters.Add(new Updater((State state) => state.StrokePace, (Object value) => m_View.StrokePace = (Time)value));
+            m_Updaters.Add(new Updater((State state) => state.Pace, (Object value) => m_View.Pace = (Time)value));
             m_Updaters.Add(new Updater((State state) => state.StrokeRate, (Object value) => m_View.StrokeRate = (uint)value));
         }
 

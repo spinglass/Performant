@@ -28,7 +28,7 @@ namespace Monitor
         public Distance Distance = new Distance();
         public uint HeartRate = 0;
         public uint Power = 0;
-        public Time StrokePace = new Time();
+        public Time Pace = new Time();
         public uint StrokeRate = 0;
         public Time Time = new Time();
     }

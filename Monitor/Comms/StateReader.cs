@@ -164,7 +164,7 @@ namespace Monitor.Comms
                 m_State.Distance = m_DistanceCommand.Distance;
                 m_State.HeartRate = m_HeartRateCommand.HeartRate;
                 m_State.Power = m_PowerCommand.Power;
-                m_State.StrokePace = m_PaceCommand.StrokePace;
+                m_State.Pace = m_PaceCommand.Pace;
                 m_State.StrokeRate = m_CadenceCommand.StrokeRate;
                 m_State.Time = m_TimeCommand.Time;
             }
