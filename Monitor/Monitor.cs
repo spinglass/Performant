@@ -42,7 +42,7 @@ namespace Monitor
             State state = m_StateReader.GetState();
 
             // Inject connection state
-            state.ConnectionState = m_Connection.State;
+            state.ConnectionState = m_ConnectionState;
 
             return state;
         }
@@ -57,6 +57,7 @@ namespace Monitor
                         // Attempt to start the connection
                         if (m_Connection.Open())
                         {
+                            m_ConnectionState = ConnectionState.Connected;
                             Debug.WriteLine("Connection: opened");
                         }
                         break;
@@ -65,20 +66,25 @@ namespace Monitor
                     case ConnectionState.SendError:
                         bool success = m_StateReader.Update();
 
-                        if (!success)
+                        if (success)
+                        {
+                            m_ConnectionState = ConnectionState.Connected;
+                        }
+                        else
                         {
                             if (!m_Connection.IsOpen)
                             {
+                                m_ConnectionState = ConnectionState.Disconnected;
                                 Debug.WriteLine("Connection: lost");
                             }
                             else
                             {
+                                m_ConnectionState = ConnectionState.SendError;
                                 Debug.WriteLine("Connection: send error");
                             }
                         }
                         break;
                 }
-                m_ConnectionState = m_Connection.State;
 
                 Thread.Sleep(10);
             }
@@ -86,7 +92,7 @@ namespace Monitor
             m_Connection.Close();
         }
 
-        private Connection m_Connection;
+        private IConnection m_Connection;
         private Commander m_Commander;
         private StateReader m_StateReader;
         private Thread m_Thread;

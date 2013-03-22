@@ -8,37 +8,33 @@ using System.Threading.Tasks;
 
 namespace Monitor.Comms
 {
-    class Connection
+    class Connection : IConnection
     {
         public Connection()
         {
             m_PM3 = new PM3();
             m_Port = -1;
-            m_State = ConnectionState.Disconnected;
+            m_Open = false;
 
             m_PM3.Start();
         }
 
         public bool IsOpen
         {
-            get { return m_State == ConnectionState.Connected || m_State == ConnectionState.SendError; }
+            get { return m_Open; }
         }
-
-        public ConnectionState State { get { return m_State; } }
 
         public bool Open()
         {
-            if (m_State == ConnectionState.Disconnected)
+            if (!m_Open)
             {
                 int numUnits = m_PM3.DiscoverUnits();
                 if (numUnits > 0)
                 {
                     try
                     {
-                        m_UnitInfo = m_PM3.GetUnitInfo(0);
-
                         m_Port = 0;
-                        m_State = ConnectionState.Connected;
+                        m_Open = true;
                     }
                     catch (PM3Exception e)
                     {
@@ -48,42 +44,39 @@ namespace Monitor.Comms
             }
             else
             {
-                Debug.WriteLine("[Connection.Open] Can only attempt to open a connection from Disconnected");
+                Debug.WriteLine("[Connection.Open] Connection already open");
             }
 
-            return (m_State == ConnectionState.Connected);
+            return m_Open;
         }
 
         public void Close()
         {
-            m_State = ConnectionState.Disconnected;
+            m_Open = false;
             m_Port = -1;
         }
 
         public bool SendCSAFECommand(uint[] cmdData, int cmdDataCount, uint[] rspData, ref int rspDataCount)
         {
-            if (IsOpen)
+            if (m_Open)
             {
                 try
                 {
                     m_PM3.SendCSAFECommand(m_Port, cmdData, cmdDataCount, rspData, ref rspDataCount);
-                    m_State = ConnectionState.Connected;
                     return true;
                 }
                 catch (WriteFailedException e)
                 {
                     Debug.WriteLine(string.Format("[Connection.SendCSAFECommand] {0}", e.Message));
-                    m_State = ConnectionState.SendError;
                 }
                 catch (ReadTimeoutException e)
                 {
                     Debug.WriteLine(string.Format("[Connection.SendCSAFECommand] {0}", e.Message));
-                    m_State = ConnectionState.SendError;
                 }
                 catch (DeviceClosedException e)
                 {
                     Debug.WriteLine(string.Format("[Connection.SendCSAFECommand] {0}", e.Message));
-                    m_State = ConnectionState.Disconnected;
+                    m_Open = false;
                 }
             }
             return false;
@@ -91,7 +84,6 @@ namespace Monitor.Comms
 
         private PM3 m_PM3;
         private int m_Port;
-        private ConnectionState m_State;
-        private UnitInfo m_UnitInfo;
+        private bool m_Open;
     }
 }

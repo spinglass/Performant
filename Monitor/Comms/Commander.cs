@@ -12,7 +12,7 @@ namespace Monitor.Comms
 {
     class Commander
     {
-        public Commander(Connection connection)
+        public Commander(IConnection connection)
         {
             m_Connection = connection;
             m_RspReader = new ResponseReader(64);
@@ -42,7 +42,7 @@ namespace Monitor.Comms
             return success;
         }
 
-        Connection m_Connection;
+        IConnection m_Connection;
         ResponseReader m_RspReader;
     }
 }
