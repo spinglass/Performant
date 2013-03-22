@@ -4,8 +4,7 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <Color x:Key="ColorConnected">#FF38C921</Color>
-        <Color x:Key="ColorIdle">#FF9EA896</Color>
+        <Color x:Key="ColorDisconnected">#FFF11B11</Color>
         <Color x:Key="ColorSendError">#FFFFD516</Color>
-        <Color x:Key="ColorLost">#FFF11B11</Color>
     </Application.Resources>
 </Application>

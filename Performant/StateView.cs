@@ -11,7 +11,7 @@ namespace Performant
     public class StateView : DependencyObject
     {
         public static readonly DependencyProperty ConnectionStateProperty = DependencyProperty.Register(
-          "ConnectionState", typeof(ConnectionState), typeof(StateView), new PropertyMetadata(ConnectionState.Idle));
+          "ConnectionState", typeof(ConnectionState), typeof(StateView), new PropertyMetadata(ConnectionState.Disconnected));
         public ConnectionState ConnectionState
         {
             get { return (ConnectionState)GetValue(ConnectionStateProperty); }

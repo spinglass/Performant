@@ -8,9 +8,8 @@ namespace Monitor
 {
     public enum ConnectionState
     {
-        Idle,
+        Disconnected,
         Connected,
         SendError,
-        Lost,
     }
 }

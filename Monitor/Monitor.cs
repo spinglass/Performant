@@ -23,7 +23,7 @@ namespace Monitor
             m_Thread.Name = "Monitor";
             m_Quit = false;
 
-            m_ConnectionState = ConnectionState.Idle;
+            m_ConnectionState = ConnectionState.Disconnected;
         }
 
         public void Start()
@@ -53,7 +53,7 @@ namespace Monitor
             {
                 switch (m_ConnectionState)
                 {
-                    case ConnectionState.Idle:
+                    case ConnectionState.Disconnected:
                         // Attempt to start the connection
                         if (m_Connection.Open())
                         {
@@ -75,14 +75,6 @@ namespace Monitor
                             {
                                 Debug.WriteLine("Connection: send error");
                             }
-                        }
-                        break;
-
-                    case ConnectionState.Lost:
-                        // Attempt to reconnect
-                        if (m_Connection.Reopen())
-                        {
-                            Debug.WriteLine("Connection: re-opened");
                         }
                         break;
                 }

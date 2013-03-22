@@ -13,7 +13,7 @@ namespace Monitor
             return (State)MemberwiseClone();
         }
 
-        public ConnectionState ConnectionState = ConnectionState.Idle;
+        public ConnectionState ConnectionState = ConnectionState.Disconnected;
 
         // PM3 data
         public uint DragFactor = 0;

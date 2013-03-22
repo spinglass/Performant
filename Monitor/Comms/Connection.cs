@@ -14,7 +14,7 @@ namespace Monitor.Comms
         {
             m_PM3 = new PM3();
             m_Port = -1;
-            m_State = ConnectionState.Idle;
+            m_State = ConnectionState.Disconnected;
 
             m_PM3.Start();
         }
@@ -28,7 +28,7 @@ namespace Monitor.Comms
 
         public bool Open()
         {
-            if (m_State == ConnectionState.Idle)
+            if (m_State == ConnectionState.Disconnected)
             {
                 int numUnits = m_PM3.DiscoverUnits();
                 if (numUnits > 0)
@@ -48,41 +48,7 @@ namespace Monitor.Comms
             }
             else
             {
-                Debug.WriteLine("[Connection.Open] Can only attempt to open a connection from idle");
-            }
-
-            return (m_State == ConnectionState.Connected);
-        }
-
-        public bool Reopen()
-        {
-            if (m_State == ConnectionState.Lost)
-            {
-                int numUnits = m_PM3.DiscoverUnits();
-                if (numUnits > 0)
-                {
-                    try
-                    {
-                        UnitInfo unitInfo = m_PM3.GetUnitInfo(0);
-
-                        if (unitInfo.serialNumber == m_UnitInfo.serialNumber)
-                        {
-                            m_State = ConnectionState.Connected;
-                        }
-                        else
-                        {
-                            Debug.WriteLine("[Connection.Reopen] Connection opened to wrong device!");
-                        }
-                    }
-                    catch (PM3Exception e)
-                    {
-                        Debug.WriteLine(string.Format("[Connection.Reopen] {0}", e.Message));
-                    }
-                }
-            }
-            else
-            {
-                Debug.WriteLine("[Connection.Reopen] Can only attempt to re-open a connection from lost");
+                Debug.WriteLine("[Connection.Open] Can only attempt to open a connection from Disconnected");
             }
 
             return (m_State == ConnectionState.Connected);
@@ -90,7 +56,7 @@ namespace Monitor.Comms
 
         public void Close()
         {
-            m_State = ConnectionState.Idle;
+            m_State = ConnectionState.Disconnected;
             m_Port = -1;
         }
 
@@ -117,7 +83,7 @@ namespace Monitor.Comms
                 catch (DeviceClosedException e)
                 {
                     Debug.WriteLine(string.Format("[Connection.SendCSAFECommand] {0}", e.Message));
-                    m_State = ConnectionState.Lost;
+                    m_State = ConnectionState.Disconnected;
                 }
             }
             return false;
