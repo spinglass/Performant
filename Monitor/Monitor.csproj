@@ -59,11 +59,12 @@
     <Compile Include="Comms\Commander.cs" />
     <Compile Include="Comms\CommandSet.cs" />
     <Compile Include="Comms\CommandWriter.cs" />
-    <Compile Include="Comms\Connection.cs" />
+    <Compile Include="Comms\DirectConnection.cs" />
     <Compile Include="Comms\IConnection.cs" />
     <Compile Include="Comms\ResponseReader.cs" />
     <Compile Include="Comms\StateReader.cs" />
     <Compile Include="Commands\CSAFE.cs" />
+    <Compile Include="Comms\TcpConnection.cs" />
     <Compile Include="InternalException.cs" />
     <Compile Include="Monitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

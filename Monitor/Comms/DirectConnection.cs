@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Monitor.Comms
 {
-    class Connection : IConnection
+    class DirectConnection : IConnection
     {
-        public Connection()
+        public DirectConnection()
         {
             m_PM3 = new PM3();
             m_Port = -1;

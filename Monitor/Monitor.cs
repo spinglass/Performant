@@ -13,9 +13,22 @@ namespace Monitor
 {
     public class Monitor
     {
-        public Monitor()
+        public static Monitor CreateDirect()
         {
-            m_Connection = new Connection();
+            DirectConnection connection = new DirectConnection();
+            return new Monitor(connection);
+        }
+
+        public static Monitor CreateTcp(string hostname)
+        {
+            const int port = 12174;
+            TcpConnection connection = new TcpConnection(hostname, port);
+            return new Monitor(connection);
+        }
+
+        private Monitor(IConnection connection)
+        {
+            m_Connection = connection;
             m_Commander = new Commander(m_Connection);
             m_StateReader = new StateReader(m_Commander);
  

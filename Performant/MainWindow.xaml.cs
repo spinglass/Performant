@@ -25,7 +25,7 @@ namespace Performant
         {
             InitializeComponent();
 
-            m_Monitor = new Monitor.Monitor();
+            m_Monitor = Monitor.Monitor.CreateDirect();
             m_StateView = new StateView();
             m_StateWatcher = new StateWatcher(Dispatcher, m_StateView, m_Monitor);
 
