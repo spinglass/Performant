@@ -66,7 +66,7 @@
     <Compile Include="Commands\CSAFE.cs" />
     <Compile Include="Comms\TcpConnection.cs" />
     <Compile Include="InternalException.cs" />
-    <Compile Include="Monitor.cs" />
+    <Compile Include="Controller.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Types\ConnectionState.cs" />
     <Compile Include="Types\Distance.cs" />

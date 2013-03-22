@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Monitor;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -25,26 +26,26 @@ namespace Performant
         {
             InitializeComponent();
 
-            m_Monitor = Monitor.Monitor.CreateDirect();
+            m_Controller = Controller.CreateDirect();
             m_StateView = new StateView();
-            m_StateWatcher = new StateWatcher(Dispatcher, m_StateView, m_Monitor);
+            m_StateWatcher = new StateWatcher(Dispatcher, m_StateView, m_Controller);
 
             DataContext = m_StateView;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            m_Monitor.Start();
+            m_Controller.Start();
             m_StateWatcher.Start();
         }
 
         private void OnClosing(object sender, CancelEventArgs e)
         {
             m_StateWatcher.Stop();
-            m_Monitor.Stop();
+            m_Controller.Stop();
         }
 
-        private Monitor.Monitor m_Monitor;
+        private Controller m_Controller;
         private StateView m_StateView;
         private StateWatcher m_StateWatcher;
     }

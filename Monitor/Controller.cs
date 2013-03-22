@@ -11,22 +11,22 @@ using System.Threading.Tasks;
 
 namespace Monitor
 {
-    public class Monitor
+    public class Controller
     {
-        public static Monitor CreateDirect()
+        public static Controller CreateDirect()
         {
             DirectConnection connection = new DirectConnection();
-            return new Monitor(connection);
+            return new Controller(connection);
         }
 
-        public static Monitor CreateTcp(string hostname)
+        public static Controller CreateTcp(string hostname)
         {
             const int port = 12174;
             TcpConnection connection = new TcpConnection(hostname, port);
-            return new Monitor(connection);
+            return new Controller(connection);
         }
 
-        private Monitor(IConnection connection)
+        private Controller(IConnection connection)
         {
             m_Connection = connection;
             m_Commander = new Commander(m_Connection);

@@ -41,11 +41,11 @@ namespace Performant
             private Object m_Value;
         }
 
-        public StateWatcher(Dispatcher dispatcher, StateView stateView, Monitor.Monitor monitor)
+        public StateWatcher(Dispatcher dispatcher, StateView stateView, Controller controller)
         {
             m_Dispatcher = dispatcher;
             m_View = stateView;
-            m_Monitor = monitor;
+            m_Controller = controller;
             m_Thread = new Thread(ThreadProc);
             m_Thread.Name = "StateWatcher";
             m_Update = new Action(Update);
@@ -100,7 +100,7 @@ namespace Performant
         private void Update()
         {
             // Get the current (latest) state from the monitor
-            State state = m_Monitor.GetState();
+            State state = m_Controller.GetState();
             
             // Apply all the values of interest from the state to the view
             foreach (Updater updater in m_Updaters)
@@ -111,7 +111,7 @@ namespace Performant
 
         private Dispatcher m_Dispatcher;
         private StateView m_View;
-        Monitor.Monitor m_Monitor;
+        Controller m_Controller;
         private Thread m_Thread;
         private Action m_Update;
         private bool m_Quit;
