@@ -99,6 +99,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DirectConnection\DirectConnection.csproj">
+      <Project>{1ad794e9-efde-43b0-aa1f-844f00656dae}</Project>
+      <Name>DirectConnection</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Monitor\Monitor.csproj">
       <Project>{d989bc6e-480d-4e13-bdbe-24ccdbc7bbe8}</Project>
       <Name>Monitor</Name>

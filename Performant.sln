@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PM3Wrapper", "PM3Wrapper\PM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monitor", "Monitor\Monitor.csproj", "{D989BC6E-480D-4E13-BDBE-24CCDBC7BBE8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectConnection", "DirectConnection\DirectConnection.csproj", "{1AD794E9-EFDE-43B0-AA1F-844F00656DAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcpConnection", "TcpConnection\TcpConnection.csproj", "{757C3B0F-6836-4354-ADEC-B3D990031F37}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +29,14 @@ Global
 		{D989BC6E-480D-4E13-BDBE-24CCDBC7BBE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D989BC6E-480D-4E13-BDBE-24CCDBC7BBE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D989BC6E-480D-4E13-BDBE-24CCDBC7BBE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AD794E9-EFDE-43B0-AA1F-844F00656DAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AD794E9-EFDE-43B0-AA1F-844F00656DAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AD794E9-EFDE-43B0-AA1F-844F00656DAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AD794E9-EFDE-43B0-AA1F-844F00656DAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{757C3B0F-6836-4354-ADEC-B3D990031F37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{757C3B0F-6836-4354-ADEC-B3D990031F37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{757C3B0F-6836-4354-ADEC-B3D990031F37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{757C3B0F-6836-4354-ADEC-B3D990031F37}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

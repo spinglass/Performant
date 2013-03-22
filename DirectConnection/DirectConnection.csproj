@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D989BC6E-480D-4E13-BDBE-24CCDBC7BBE8}</ProjectGuid>
+    <ProjectGuid>{1AD794E9-EFDE-43B0-AA1F-844F00656DAE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Monitor</RootNamespace>
-    <AssemblyName>Monitor</AssemblyName>
+    <RootNamespace>DirectConnection</RootNamespace>
+    <AssemblyName>DirectConnection</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -16,20 +16,18 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\bin\Debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\bin\Release\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -41,38 +39,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\Command.cs" />
-    <Compile Include="Commands\Csafe\CadenceCommand.cs" />
-    <Compile Include="Commands\Csafe\CaloriesCommand.cs" />
-    <Compile Include="Commands\Csafe\DistanceCommand.cs" />
-    <Compile Include="Commands\Csafe\HeartRateCommand.cs" />
-    <Compile Include="Commands\Csafe\PaceCommand.cs" />
-    <Compile Include="Commands\Csafe\PowerCommand.cs" />
-    <Compile Include="Commands\Csafe\TimeCommand.cs" />
-    <Compile Include="Commands\PM3\DragFactorCommand.cs" />
-    <Compile Include="Commands\PM3\PM3Command.cs" />
-    <Compile Include="Commands\PM3\StrokeStateCommand.cs" />
-    <Compile Include="Commands\PM3\WorkDistanceCommand.cs" />
-    <Compile Include="Commands\PM3\WorkoutStateCommand.cs" />
-    <Compile Include="Commands\PM3\WorkoutTypeCommand.cs" />
-    <Compile Include="Commands\PM3\WorkTimeCommand.cs" />
-    <Compile Include="Comms\Commander.cs" />
-    <Compile Include="Comms\CommandSet.cs" />
-    <Compile Include="Comms\CommandWriter.cs" />
-    <Compile Include="IConnection.cs" />
-    <Compile Include="Comms\ResponseReader.cs" />
-    <Compile Include="Comms\StateReader.cs" />
-    <Compile Include="Commands\CSAFE.cs" />
-    <Compile Include="InternalException.cs" />
-    <Compile Include="Controller.cs" />
+    <Compile Include="Connection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Types\ConnectionState.cs" />
-    <Compile Include="Types\Distance.cs" />
-    <Compile Include="State.cs" />
-    <Compile Include="Types\StrokeState.cs" />
-    <Compile Include="Types\Time.cs" />
-    <Compile Include="Types\WorkoutState.cs" />
-    <Compile Include="Types\WorkoutType.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Monitor\Monitor.csproj">
+      <Project>{d989bc6e-480d-4e13-bdbe-24ccdbc7bbe8}</Project>
+      <Name>Monitor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PM3Wrapper\PM3Wrapper.csproj">
+      <Project>{aecd1e6d-ad44-4189-804b-dda749625dc5}</Project>
+      <Name>PM3Wrapper</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

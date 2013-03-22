@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Monitor.Comms
+namespace Monitor
 {
-    interface IConnection
+    public interface IConnection
     {
         bool IsOpen { get; }
         bool Open();

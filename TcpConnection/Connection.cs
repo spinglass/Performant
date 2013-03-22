@@ -1,14 +1,15 @@
-﻿using System;
+﻿using Monitor;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Monitor.Comms
+namespace TcpConnection
 {
-    class TcpConnection : IConnection
+    public class Connection : IConnection
     {
-        public TcpConnection(string hostname, int port)
+        public Connection(string hostname, int port)
         {
         }
 

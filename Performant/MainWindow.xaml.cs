@@ -1,4 +1,5 @@
-﻿using Monitor;
+﻿using DirectConnection;
+using Monitor;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,7 +27,8 @@ namespace Performant
         {
             InitializeComponent();
 
-            m_Controller = Controller.CreateDirect();
+            Connection connection = new Connection();
+            m_Controller = new Controller(connection);
             m_StateView = new StateView();
             m_StateWatcher = new StateWatcher(Dispatcher, m_StateView, m_Controller);
 

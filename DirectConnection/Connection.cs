@@ -1,4 +1,5 @@
-﻿using PM3Wrapper;
+﻿using Monitor;
+using PM3Wrapper;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Monitor.Comms
+namespace DirectConnection
 {
-    class DirectConnection : IConnection
+    public class Connection : IConnection
     {
-        public DirectConnection()
+        public Connection()
         {
-            m_PM3 = new PM3();
+            m_PM3 = new PM3Wrapper.PM3();
             m_Port = -1;
             m_Open = false;
 

@@ -1,6 +1,5 @@
 ﻿using Monitor.Commands;
 using Monitor.Comms;
-using PM3Wrapper;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,20 +12,7 @@ namespace Monitor
 {
     public class Controller
     {
-        public static Controller CreateDirect()
-        {
-            DirectConnection connection = new DirectConnection();
-            return new Controller(connection);
-        }
-
-        public static Controller CreateTcp(string hostname)
-        {
-            const int port = 12174;
-            TcpConnection connection = new TcpConnection(hostname, port);
-            return new Controller(connection);
-        }
-
-        private Controller(IConnection connection)
+        public Controller(IConnection connection)
         {
             m_Connection = connection;
             m_Commander = new Commander(m_Connection);
