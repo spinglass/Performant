@@ -2,13 +2,15 @@
 using DirectConnection;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
 namespace PerformantServer
 {
-    enum ServerConnectionState
+    enum PM3State
     {
         Connected,
         Disconnected,
@@ -16,13 +18,15 @@ namespace PerformantServer
 
     class Server
     {
-        public delegate void ConnectionHandler(object sender, ServerConnectionState state);
+        public delegate void ConnectionHandler(object sender, PM3State state);
         public event ConnectionHandler ConnectionChanged;
 
         public Server()
         {
+            m_Listener = new Listener(7474);
+            m_TcpTimeout = new Stopwatch();
             m_Connection = new Connection();
-            m_ConnectionState = ServerConnectionState.Disconnected;
+            m_PM3State = PM3State.Disconnected;
             m_FrameCount = 0;
 
             m_Thread = new Thread(ThreadProc);
@@ -33,24 +37,26 @@ namespace PerformantServer
         public void Start()
         {
             m_Thread.Start();
+            m_Listener.Start();
         }
 
         public void Stop()
         {
             m_Quit = true;
+            m_Listener.Stop();
             m_Thread.Join();
         }
 
-        private void SetConnectionState(ServerConnectionState state)
+        private void SetConnectionState(PM3State state)
         {
-            if (m_ConnectionState != state)
+            if (m_PM3State != state)
             {
                 if (ConnectionChanged != null)
                 {
                     ConnectionChanged(this, state);
                 }
             }
-            m_ConnectionState = state;
+            m_PM3State = state;
         }
 
         private bool SendKeepAlive()
@@ -62,43 +68,95 @@ namespace PerformantServer
             return m_Connection.SendCSAFECommand(cmd, cmd.Length, rsp, ref rspLength);
         }
 
+        private void UpdatePM3Connection()
+        {
+            switch (m_PM3State)
+            {
+                case PM3State.Disconnected:
+                    if (m_FrameCount % 100 == 0)
+                    {
+                        if (m_Connection.Open())
+                        {
+                            SetConnectionState(PM3State.Connected);
+                            Debug.WriteLine("Server: PM3 connected");
+                        }
+                    }
+                    break;
+
+                case PM3State.Connected:
+                    if (m_FrameCount % 100 == 0)
+                    {
+                        SendKeepAlive();
+                        if (!m_Connection.IsOpen)
+                        {
+                            SetConnectionState(PM3State.Disconnected);
+                            Debug.WriteLine("Server: PM3 lost");
+                        }
+                    }
+                    break;
+            }
+        }
+
+        private void UpdateTcpConnection()
+        {
+            if (m_Stream == null)
+            {
+                // No current connection
+                m_Stream = m_Listener.Stream;
+                if (m_Stream != null)
+                {
+                    m_Stream.ReadTimeout = 10;
+                    m_Stream.WriteTimeout = 10;
+
+                    m_TcpTimeout.Restart();
+
+                    Debug.WriteLine("Server: Client connected");
+                }
+            }
+            else
+            {
+                if (m_Stream.DataAvailable)
+                {
+                    m_TcpTimeout.Restart();
+
+                    if (m_PM3State == PM3State.Connected)
+                    {
+                    }
+                    else
+                    {
+                    }
+                }
+                else
+                {
+                    // Ensure the client is still talking to us
+                    if (m_TcpTimeout.ElapsedMilliseconds > 1000)
+                    {
+                        m_Listener.CloseCurrent();
+                        m_Stream = null;
+                        Debug.WriteLine("Server: Client lost");
+                    }
+                }
+            }
+        }
+
         private void ThreadProc()
         {
             while (!m_Quit)
             {
-                switch (m_ConnectionState)
-                {
-                    case ServerConnectionState.Disconnected:
-                        if (m_FrameCount % 100 == 0)
-                        {
-                            if (m_Connection.Open())
-                            {
-                                SetConnectionState(ServerConnectionState.Connected);
-                            }
-                        }
-                        break;
-
-                    case ServerConnectionState.Connected:
-                        if (m_FrameCount % 100 == 0)
-                        {
-                            SendKeepAlive();
-                            if (!m_Connection.IsOpen)
-                            {
-                                SetConnectionState(ServerConnectionState.Disconnected);
-                            }
-                        }
-                        break;
-                }
+                UpdatePM3Connection();
+                UpdateTcpConnection();
 
                 ++m_FrameCount;
-                Thread.Sleep(10);
             }
         }
 
         private IConnection m_Connection;
+        private Listener m_Listener;
+        private NetworkStream m_Stream;
+        private Stopwatch m_TcpTimeout;
         private Thread m_Thread;
         private bool m_Quit;
-        private ServerConnectionState m_ConnectionState;
+        private PM3State m_PM3State;
         private int m_FrameCount;
     }
 }

@@ -34,15 +34,15 @@ namespace PerformantServer
             m_Server.Start();
         }
 
-        void Server_ConnectionChanged(object sender, ServerConnectionState state)
+        void Server_ConnectionChanged(object sender, PM3State state)
         {
             switch (state)
             {
-                case ServerConnectionState.Connected:
+                case PM3State.Connected:
                     m_NotifyIcon.Icon = PerformantServer.Properties.Resources.ConnectedIcon;
                     m_NotifyIcon.Text = PerformantServer.Properties.Resources.ConnectedTooltip;
                     break;
-                case ServerConnectionState.Disconnected:
+                case PM3State.Disconnected:
                     m_NotifyIcon.Icon = PerformantServer.Properties.Resources.DisconnectedIcon;
                     m_NotifyIcon.Text = PerformantServer.Properties.Resources.DisconnectedTooltip;
                     break;
