@@ -20,7 +20,7 @@ namespace PerformantServer
             // Create the notification icon
             m_NotifyIcon = new System.Windows.Forms.NotifyIcon();
             m_NotifyIcon.Icon = PerformantServer.Properties.Resources.DisconnectedIcon;
-            m_NotifyIcon.Text = "Performant Server";
+            m_NotifyIcon.Text = PerformantServer.Properties.Resources.DisconnectedTooltip;
             m_NotifyIcon.Visible = true;
 
             // Make menu
@@ -40,9 +40,11 @@ namespace PerformantServer
             {
                 case ServerConnectionState.Connected:
                     m_NotifyIcon.Icon = PerformantServer.Properties.Resources.ConnectedIcon;
+                    m_NotifyIcon.Text = PerformantServer.Properties.Resources.ConnectedTooltip;
                     break;
                 case ServerConnectionState.Disconnected:
                     m_NotifyIcon.Icon = PerformantServer.Properties.Resources.DisconnectedIcon;
+                    m_NotifyIcon.Text = PerformantServer.Properties.Resources.DisconnectedTooltip;
                     break;
             }
         }

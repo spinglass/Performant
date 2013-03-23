@@ -61,7 +61,7 @@ namespace PerformantServer
                     case ServerConnectionState.Disconnected:
                         if (m_Connection.Open())
                         {
-                            m_ConnectionState = ServerConnectionState.Connected;
+                            SetConnectionState(ServerConnectionState.Connected);
                         }
                         break;
 

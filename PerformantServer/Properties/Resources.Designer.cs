@@ -71,12 +71,32 @@ namespace PerformantServer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Performant Server
+        ///Connected to PM3.
+        /// </summary>
+        internal static string ConnectedTooltip {
+            get {
+                return ResourceManager.GetString("ConnectedTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon DisconnectedIcon {
             get {
                 object obj = ResourceManager.GetObject("DisconnectedIcon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Performant Server
+        ///Not connected.
+        /// </summary>
+        internal static string DisconnectedTooltip {
+            get {
+                return ResourceManager.GetString("DisconnectedTooltip", resourceCulture);
             }
         }
     }
