@@ -8,15 +8,15 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
-namespace PerformantServer
+namespace TcpConnection
 {
-    enum PM3State
+    public enum PM3State
     {
         Connected,
         Disconnected,
     }
 
-    class Server
+    public class Server
     {
         public delegate void ConnectionHandler(object sender, PM3State state);
         public event ConnectionHandler ConnectionChanged;
@@ -25,7 +25,7 @@ namespace PerformantServer
         {
             m_Listener = new Listener(7474);
             m_TcpTimeout = new Stopwatch();
-            m_Connection = new Connection();
+            m_Connection = new DirectConnection.Connection();
             m_PM3State = PM3State.Disconnected;
             m_FrameCount = 0;
 

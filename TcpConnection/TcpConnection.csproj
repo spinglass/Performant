@@ -40,12 +40,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connection.cs" />
+    <Compile Include="Listener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{87e9d219-97d4-427d-a0ea-25b75e4d2d03}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DirectConnection\DirectConnection.csproj">
+      <Project>{1ad794e9-efde-43b0-aa1f-844f00656dae}</Project>
+      <Name>DirectConnection</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
