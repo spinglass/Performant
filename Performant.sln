@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectConnection", "DirectC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcpConnection", "TcpConnection\TcpConnection.csproj", "{757C3B0F-6836-4354-ADEC-B3D990031F37}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformantServer", "PerformantServer\PerformantServer.csproj", "{537C1B51-F369-4068-A805-3DE2369432DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{87E9D219-97D4-427D-A0EA-25B75E4D2D03}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +41,14 @@ Global
 		{757C3B0F-6836-4354-ADEC-B3D990031F37}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{757C3B0F-6836-4354-ADEC-B3D990031F37}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{757C3B0F-6836-4354-ADEC-B3D990031F37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{537C1B51-F369-4068-A805-3DE2369432DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{537C1B51-F369-4068-A805-3DE2369432DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{537C1B51-F369-4068-A805-3DE2369432DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{537C1B51-F369-4068-A805-3DE2369432DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87E9D219-97D4-427D-A0EA-25B75E4D2D03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87E9D219-97D4-427D-A0EA-25B75E4D2D03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87E9D219-97D4-427D-A0EA-25B75E4D2D03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87E9D219-97D4-427D-A0EA-25B75E4D2D03}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

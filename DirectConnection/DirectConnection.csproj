@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -24,7 +24,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -43,9 +43,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Monitor\Monitor.csproj">
-      <Project>{d989bc6e-480d-4e13-bdbe-24ccdbc7bbe8}</Project>
-      <Name>Monitor</Name>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{87e9d219-97d4-427d-a0ea-25b75e4d2d03}</Project>
+      <Name>Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\PM3Wrapper\PM3Wrapper.csproj">
       <Project>{aecd1e6d-ad44-4189-804b-dda749625dc5}</Project>

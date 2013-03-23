@@ -1,4 +1,5 @@
-﻿using Monitor.Commands;
+﻿using Common;
+using Monitor.Commands;
 using Monitor.Comms;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace Monitor
             m_StateReader = new StateReader(m_Commander);
  
             m_Thread = new Thread(ThreadProc);
-            m_Thread.Name = "Monitor";
+            m_Thread.Name = "Controller";
             m_Quit = false;
 
             m_ConnectionState = ConnectionState.Disconnected;

@@ -59,7 +59,6 @@
     <Compile Include="Comms\Commander.cs" />
     <Compile Include="Comms\CommandSet.cs" />
     <Compile Include="Comms\CommandWriter.cs" />
-    <Compile Include="IConnection.cs" />
     <Compile Include="Comms\ResponseReader.cs" />
     <Compile Include="Comms\StateReader.cs" />
     <Compile Include="Commands\CSAFE.cs" />
@@ -73,6 +72,12 @@
     <Compile Include="Types\Time.cs" />
     <Compile Include="Types\WorkoutState.cs" />
     <Compile Include="Types\WorkoutType.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{87e9d219-97d4-427d-a0ea-25b75e4d2d03}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
