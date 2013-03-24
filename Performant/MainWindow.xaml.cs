@@ -1,4 +1,4 @@
-﻿using DirectConnection;
+﻿using TcpConnection;
 using Monitor;
 using System;
 using System.Collections.Generic;
@@ -27,7 +27,7 @@ namespace Performant
         {
             InitializeComponent();
 
-            Connection connection = new Connection();
+            Connection connection = new Connection("localhost", 7474);
             m_Controller = new Controller(connection);
             m_StateView = new StateView();
             m_StateWatcher = new StateWatcher(Dispatcher, m_StateView, m_Controller);
