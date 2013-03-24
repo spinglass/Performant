@@ -44,10 +44,9 @@ namespace TcpConnection
                     if (m_Sender.Handshake())
                     {
                         m_Client = client;
-                        Debug.WriteLine("Connection: Opened");
 
                         // Much faster timeout now we're connected
-                        stream.ReadTimeout = 10;
+                        stream.ReadTimeout = 100;
                     }
                     else
                     {

@@ -168,11 +168,11 @@ namespace TcpConnection
                 else
                 {
                     // Ensure the client is still talking to us
-                    //if (m_TcpTimeout.ElapsedMilliseconds > 1000)
-                    //{
-                    //    CloseConnection();
-                    //    Debug.WriteLine("Server: Lost");
-                    //}
+                    if (m_TcpTimeout.ElapsedMilliseconds > 1000)
+                    {
+                        CloseConnection();
+                        Debug.WriteLine("Server: Lost");
+                    }
                 }
             }
         }

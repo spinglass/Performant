@@ -58,7 +58,7 @@ namespace Monitor
                         if (m_Connection.Open())
                         {
                             m_ConnectionState = ConnectionState.Connected;
-                            Debug.WriteLine("Connection: opened");
+                            Debug.WriteLine("Connection: Opened");
                         }
                         break;
 

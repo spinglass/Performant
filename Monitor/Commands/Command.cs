@@ -1,6 +1,7 @@
 ﻿using Monitor.Comms;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,9 +25,15 @@ namespace Monitor.Commands
 
         public void Read(ResponseReader reader)
         {
-            if (reader.ReadByte() == (uint)m_Id && reader.ReadByte() == m_RspSize)
+            uint id = reader.ReadByte();
+            uint size = reader.ReadByte();
+            if (id == (uint)m_Id && size == m_RspSize)
             {
                 ReadInternal(reader);
+            }
+            else
+            {
+                Debug.WriteLine("[Command.Read] id/size mismatch");
             }
         }
 

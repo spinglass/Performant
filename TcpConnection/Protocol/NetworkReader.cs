@@ -36,10 +36,16 @@ namespace TcpConnection.Protocol
                     if (Enum.IsDefined(typeof(MessageType), (MessageType)type))
                     {
                         int size = (int)m_NetworkStream.ReadByte();
-                        m_NetworkStream.Read(m_Buffer, 0, size);
-
-                        m_PendingType = (MessageType)type;
-                        m_Reader.BaseStream.Position = 0;
+                        int readSize = m_NetworkStream.Read(m_Buffer, 0, size);
+                        if (size == readSize)
+                        {
+                            m_PendingType = (MessageType)type;
+                            m_Reader.BaseStream.Position = 0;
+                        }
+                        else
+                        {
+                            Debug.WriteLine("[NetworkReader.ReadHeader] Failed to read full message");
+                        }
                     }
                     else
                     {
