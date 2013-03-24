@@ -25,8 +25,8 @@ namespace TcpConnection
         public Server()
         {
             m_Connection = new DirectConnection.Connection();
-            m_CmdBuffer = new uint[64];
-            m_RspBuffer = new uint[64];
+            m_CmdData = new uint[64];
+            m_RspData = new uint[64];
             m_Responder = new Responder();
 
             m_Listener = new Listener(7474);
@@ -69,8 +69,8 @@ namespace TcpConnection
         private bool SendKeepAlive()
         {
             // Send empty command to test connection
-            int rspLength = m_RspBuffer.Length;
-            return m_Connection.SendCSAFECommand(m_CmdBuffer, 0, m_RspBuffer, ref rspLength);
+            int rspLength = m_RspData.Length;
+            return m_Connection.SendCSAFECommand(m_CmdData, 0, m_RspData, ref rspLength);
         }
 
         private void CloseConnection()
@@ -144,21 +144,35 @@ namespace TcpConnection
                 {
                     m_TcpTimeout.Restart();
 
-                    if (m_PM3State == PM3State.Connected)
+                    int cmdBufferCount = 0;
+                    if (m_Responder.ReadCommand(m_CmdData, ref cmdBufferCount))
                     {
-                    }
-                    else
-                    {
+                        if (m_PM3State == PM3State.Connected)
+                        {
+                            int rspDataCount = m_RspData.Length;
+                            if (m_Connection.SendCSAFECommand(m_CmdData, cmdBufferCount, m_RspData, ref rspDataCount))
+                            {
+                                m_Responder.SendResponse(m_RspData, rspDataCount);
+                            }
+                            else
+                            {
+                            }
+                        }
+                        else
+                        {
+                            // TEMP: Send empty response
+                            m_Responder.SendResponse(m_RspData, 0);
+                        }
                     }
                 }
                 else
                 {
                     // Ensure the client is still talking to us
-                    if (m_TcpTimeout.ElapsedMilliseconds > 1000)
-                    {
-                        CloseConnection();
-                        Debug.WriteLine("Server: Lost");
-                    }
+                    //if (m_TcpTimeout.ElapsedMilliseconds > 1000)
+                    //{
+                    //    CloseConnection();
+                    //    Debug.WriteLine("Server: Lost");
+                    //}
                 }
             }
         }
@@ -175,8 +189,8 @@ namespace TcpConnection
         }
 
         private IConnection m_Connection;
-        private uint[] m_CmdBuffer;
-        private uint[] m_RspBuffer;
+        private uint[] m_CmdData;
+        private uint[] m_RspData;
         private Responder m_Responder;
 
         private Listener m_Listener;

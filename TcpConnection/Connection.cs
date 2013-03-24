@@ -74,10 +74,12 @@ namespace TcpConnection
 
         public bool SendCSAFECommand(uint[] cmdData, int cmdDataCount, uint[] rspData, ref int rspDataCount)
         {
+            bool success = false;
             if (IsOpen)
             {
+                success = m_Sender.SendCommand(cmdData, cmdDataCount, rspData, ref rspDataCount);
             }
-            return false;
+            return success;
         }
 
         private string m_HostName;

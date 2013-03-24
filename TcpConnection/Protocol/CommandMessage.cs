@@ -16,22 +16,22 @@ namespace TcpConnection.Protocol
             m_DataCount = 0;
         }
 
-        public void Write(uint[] cmdData, int cmdDataCount)
+        public void Write(uint[] data, int dataCount)
         {
-            for (int i = 0; i < cmdDataCount; ++i)
+            for (int i = 0; i < dataCount; ++i)
             {
-                m_Data[i] = (byte)m_Data[i];
+                m_Data[i] = (byte)data[i];
             }
-            m_DataCount = cmdDataCount;
+            m_DataCount = dataCount;
         }
 
-        public void Read(uint[] cmdData, ref int cmdDataCount)
+        public void Read(uint[] data, ref int dataCount)
         {
             for (int i = 0; i < m_DataCount; ++i)
             {
-                m_Data[i] = m_Data[i];
+                data[i] = m_Data[i];
             }
-            cmdDataCount = m_DataCount;
+            dataCount = m_DataCount;
         }
 
         public override void Serialise(BinaryWriter writer)

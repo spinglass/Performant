@@ -18,6 +18,7 @@ namespace TcpConnection.Protocol
 
             // Messages
             m_Handshake = new HandshakeMessage();
+            m_Command = new CommandMessage();
         }
 
         public NetworkStream Stream
@@ -49,15 +50,45 @@ namespace TcpConnection.Protocol
             {
                 if (type == MessageType.None)
                 {
-                    Debug.WriteLine("[Sender.Handshake] No message");
+                    Debug.WriteLine("[Responder.Handshake] No message");
                 }
                 else
                 {
-                    Debug.WriteLine("[Sender.Handshake] Unexpected message (" + type.ToString() + ")");
+                    Debug.WriteLine("[Responder.Handshake] Unexpected message (" + type.ToString() + ")");
                 }
             }
 
             return success;
+        }
+
+        public bool ReadCommand(uint[] cmdData, ref int cmdDataCount)
+        {
+            bool success = false;
+
+            MessageType type = m_Reader.ReadHeader();
+            if (type == MessageType.Command)
+            {
+                if (m_Reader.ReadMessage(m_Command))
+                {
+                    m_Command.Read(cmdData, ref cmdDataCount);
+                    success = true;
+                }
+            }
+            else if(type != MessageType.None)
+            {
+                Debug.WriteLine("[Responder.ReadCommand] Unexpected message (" + type.ToString() + ")");
+            }
+
+            return success;
+        }
+
+        public bool SendResponse(uint[] rspData, int rspDataCount)
+        {
+            // Prepare the command message
+            m_Command.Write(rspData, rspDataCount);
+
+            // Send it
+            return m_Writer.Send(m_Command);
         }
 
         private NetworkStream m_NetworkStream;
@@ -65,5 +96,6 @@ namespace TcpConnection.Protocol
         private NetworkWriter m_Writer;
 
         private HandshakeMessage m_Handshake;
+        private CommandMessage m_Command;
     }
 }

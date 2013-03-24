@@ -18,6 +18,7 @@ namespace TcpConnection.Protocol
 
             // Messages
             m_Handshake = new HandshakeMessage();
+            m_Command = new CommandMessage();
         }
 
         public NetworkStream Stream
@@ -44,17 +45,6 @@ namespace TcpConnection.Protocol
                 {
                     success = m_Reader.ReadMessage(m_Handshake);
                 }
-                else
-                {
-                    if (type == MessageType.None)
-                    {
-                        Debug.WriteLine("[Sender.Handshake] No response");
-                    }
-                    else
-                    {
-                        Debug.WriteLine("[Sender.Handshake] Unexpected response (" + type.ToString() + ")");
-                    }
-                }
             }
             else
             {
@@ -64,10 +54,54 @@ namespace TcpConnection.Protocol
             return success;
         }
 
+        public bool SendCommand(uint[] cmdData, int cmdDataCount, uint[] rspData, ref int rspDataCount)
+        {
+            bool success = false;
+
+            // Prepare the command message
+            m_Command.Write(cmdData, cmdDataCount);
+
+            // Send it
+            if (m_Writer.Send(m_Command))
+            {
+                // Check the response
+                MessageType type = m_Reader.ReadHeader();
+                switch (type)
+                {
+                    case MessageType.Command:
+                        if (m_Reader.ReadMessage(m_Command))
+                        {
+                            m_Command.Read(rspData, ref rspDataCount);
+                            success = true;
+                        }
+                        else
+                        {
+                            Debug.WriteLine("[Sender.SendMessage] Failed to read response message");
+                        }
+                        break;
+
+                    case MessageType.SendError:
+                        break;
+
+                    case MessageType.ConnectionLost:
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                Debug.WriteLine("[Sender.SendMessage] Send failed");
+            }
+            return success;
+        }
+
         private NetworkStream m_NetworkStream;
         private NetworkReader m_Reader;
         private NetworkWriter m_Writer;
 
         private HandshakeMessage m_Handshake;
+        private CommandMessage m_Command;
     }
 }
