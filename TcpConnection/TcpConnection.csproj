@@ -42,6 +42,14 @@
     <Compile Include="Connection.cs" />
     <Compile Include="Listener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Protocol\CommandMessage.cs" />
+    <Compile Include="Protocol\HandshakeMessage.cs" />
+    <Compile Include="Protocol\Message.cs" />
+    <Compile Include="Protocol\MessageType.cs" />
+    <Compile Include="Protocol\NetworkReader.cs" />
+    <Compile Include="Protocol\NetworkWriter.cs" />
+    <Compile Include="Protocol\Responder.cs" />
+    <Compile Include="Protocol\Sender.cs" />
     <Compile Include="Server.cs" />
   </ItemGroup>
   <ItemGroup>

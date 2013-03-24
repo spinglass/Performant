@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using TcpConnection.Protocol;
 
 namespace TcpConnection
 {
@@ -23,9 +24,15 @@ namespace TcpConnection
 
         public Server()
         {
-            m_Listener = new Listener(7474);
-            m_TcpTimeout = new Stopwatch();
             m_Connection = new DirectConnection.Connection();
+            m_CmdBuffer = new uint[64];
+            m_RspBuffer = new uint[64];
+            m_Responder = new Responder();
+
+            m_Listener = new Listener(7474);
+            m_Client = null;
+
+            m_TcpTimeout = new Stopwatch();
             m_PM3State = PM3State.Disconnected;
             m_FrameCount = 0;
 
@@ -62,10 +69,19 @@ namespace TcpConnection
         private bool SendKeepAlive()
         {
             // Send empty command to test connection
-            uint[] cmd = new uint[0];
-            uint[] rsp = new uint[16];
-            int rspLength = rsp.Length;
-            return m_Connection.SendCSAFECommand(cmd, cmd.Length, rsp, ref rspLength);
+            int rspLength = m_RspBuffer.Length;
+            return m_Connection.SendCSAFECommand(m_CmdBuffer, 0, m_RspBuffer, ref rspLength);
+        }
+
+        private void CloseConnection()
+        {
+            m_Responder.Stream = null;
+            if (m_Client != null)
+            {
+                m_Client.Close();
+                m_Client = null;
+            }
+            m_Listener.AcceptNext();
         }
 
         private void UpdatePM3Connection()
@@ -99,23 +115,32 @@ namespace TcpConnection
 
         private void UpdateTcpConnection()
         {
-            if (m_Stream == null)
+            if (m_Client == null)
             {
                 // No current connection
-                m_Stream = m_Listener.Stream;
-                if (m_Stream != null)
+                m_Client = m_Listener.Client;
+                if (m_Client != null)
                 {
-                    m_Stream.ReadTimeout = 10;
-                    m_Stream.WriteTimeout = 10;
+                    NetworkStream stream = m_Client.GetStream();
+                    stream.ReadTimeout = 10;
+                    stream.WriteTimeout = 10;
+                    m_Responder.Stream = stream;
 
-                    m_TcpTimeout.Restart();
-
-                    Debug.WriteLine("Server: Client connected");
+                    if (m_Responder.Handshake())
+                    {
+                        Debug.WriteLine("Server: Connected");
+                        m_TcpTimeout.Restart();
+                    }
+                    else
+                    {
+                        Debug.WriteLine("[Server.UpdateTcpConnection] Handshake failed");
+                        CloseConnection();
+                    }
                 }
             }
             else
             {
-                if (m_Stream.DataAvailable)
+                if (m_Responder.Stream.DataAvailable)
                 {
                     m_TcpTimeout.Restart();
 
@@ -131,9 +156,8 @@ namespace TcpConnection
                     // Ensure the client is still talking to us
                     if (m_TcpTimeout.ElapsedMilliseconds > 1000)
                     {
-                        m_Listener.CloseCurrent();
-                        m_Stream = null;
-                        Debug.WriteLine("Server: Client lost");
+                        CloseConnection();
+                        Debug.WriteLine("Server: Lost");
                     }
                 }
             }
@@ -151,8 +175,13 @@ namespace TcpConnection
         }
 
         private IConnection m_Connection;
+        private uint[] m_CmdBuffer;
+        private uint[] m_RspBuffer;
+        private Responder m_Responder;
+
         private Listener m_Listener;
-        private NetworkStream m_Stream;
+        private TcpClient m_Client;
+
         private Stopwatch m_TcpTimeout;
         private Thread m_Thread;
         private bool m_Quit;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -15,16 +16,16 @@ namespace TcpConnection
         {
             IPAddress ip = IPAddress.Parse("127.0.0.1");
             m_Listener = new TcpListener(ip, port);
-            m_Close = false;
+            m_AcceptNext = false;
 
             m_Thread = new Thread(ThreadProc);
             m_Thread.Name = "Listener";
             m_Quit = false;
         }
 
-        public NetworkStream Stream
+        public TcpClient Client
         {
-            get { return m_Stream; }
+            get { return m_Client; }
         }
 
         public void Start()
@@ -40,10 +41,10 @@ namespace TcpConnection
             m_Thread.Join();
         }
 
-        public void CloseCurrent()
+        public void AcceptNext()
         {
-            m_Stream = null;
-            m_Close = true;
+            m_Client = null;
+            m_AcceptNext = true;
         }
 
         private void ThreadProc()
@@ -53,31 +54,27 @@ namespace TcpConnection
                 try
                 {
                     m_Client = m_Listener.AcceptTcpClient();
-
-                    m_Stream = m_Client.GetStream();
                     
                     // Don't wait for another client, just wait until this one
                     // disconnects, or it's time to quit
-                    while (!m_Quit && !m_Close && m_Client.Connected)
+                    while (!m_Quit && !m_AcceptNext)
                     {
                         Thread.Sleep(10);
                     }
 
-                    m_Client.Close();
-                    m_Client = null;
-                    m_Close = false;
+                    m_AcceptNext = false;
                 }
-                catch (SocketException)
+                catch (SocketException e)
                 {
+                    Debug.WriteLine("[Listener.ThreadProc] " + e.Message);
                 }
             }
         }
 
         private TcpListener m_Listener;
         private TcpClient m_Client;
-        private NetworkStream m_Stream;
         private Thread m_Thread;
         private bool m_Quit;
-        private bool m_Close;
+        private bool m_AcceptNext;
     }
 }
