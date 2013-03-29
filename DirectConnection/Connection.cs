@@ -15,19 +15,24 @@ namespace DirectConnection
         {
             m_PM3 = new PM3Wrapper.PM3();
             m_Port = -1;
-            m_Open = false;
+            m_State = ConnectionState.Disconnected;
 
             m_PM3.Start();
         }
 
         public bool IsOpen
         {
-            get { return m_Open; }
+            get { return (m_State == ConnectionState.Connected || m_State == ConnectionState.SendError); }
+        }
+
+        public ConnectionState State
+        {
+            get { return m_State; }
         }
 
         public bool Open()
         {
-            if (!m_Open)
+            if (m_State == ConnectionState.Disconnected)
             {
                 int numUnits = m_PM3.DiscoverUnits();
                 if (numUnits > 0)
@@ -35,7 +40,7 @@ namespace DirectConnection
                     try
                     {
                         m_Port = 0;
-                        m_Open = true;
+                        m_State = ConnectionState.Connected;
                     }
                     catch (PM3Exception e)
                     {
@@ -48,18 +53,18 @@ namespace DirectConnection
                 Debug.WriteLine("[Connection.Open] Connection already open");
             }
 
-            return m_Open;
+            return IsOpen;
         }
 
         public void Close()
         {
-            m_Open = false;
+            m_State = ConnectionState.Disconnected;
             m_Port = -1;
         }
 
         public bool SendCSAFECommand(uint[] cmdData, int cmdDataCount, uint[] rspData, ref int rspDataCount)
         {
-            if (m_Open)
+            if (IsOpen)
             {
                 try
                 {
@@ -68,16 +73,18 @@ namespace DirectConnection
                 }
                 catch (WriteFailedException e)
                 {
+                    m_State = ConnectionState.SendError;
                     Debug.WriteLine(string.Format("[Connection.SendCSAFECommand] {0}", e.Message));
                 }
                 catch (ReadTimeoutException e)
                 {
+                    m_State = ConnectionState.SendError;
                     Debug.WriteLine(string.Format("[Connection.SendCSAFECommand] {0}", e.Message));
                 }
                 catch (DeviceClosedException e)
                 {
+                    m_State = ConnectionState.Disconnected;
                     Debug.WriteLine(string.Format("[Connection.SendCSAFECommand] {0}", e.Message));
-                    m_Open = false;
                 }
             }
             return false;
@@ -85,6 +92,6 @@ namespace DirectConnection
 
         private PM3 m_PM3;
         private int m_Port;
-        private bool m_Open;
+        private ConnectionState m_State;
     }
 }

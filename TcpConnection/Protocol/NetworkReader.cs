@@ -26,6 +26,7 @@ namespace TcpConnection.Protocol
 
         public MessageType ReadHeader()
         {
+            MessageType readType = MessageType.None;
             m_PendingType = MessageType.None;
 
             if (m_NetworkStream != null)
@@ -36,19 +37,28 @@ namespace TcpConnection.Protocol
                     if (Enum.IsDefined(typeof(MessageType), (MessageType)type))
                     {
                         int size = (int)m_NetworkStream.ReadByte();
-                        int readSize = m_NetworkStream.Read(m_Buffer, 0, size);
-                        if (size == readSize)
+                        if (size > 0)
                         {
-                            m_PendingType = (MessageType)type;
-                            m_Reader.BaseStream.Position = 0;
+                            int readSize = m_NetworkStream.Read(m_Buffer, 0, size);
+                            if (size == readSize)
+                            {
+                                readType = (MessageType)type;
+                                m_PendingType = readType;
+                                m_Reader.BaseStream.Position = 0;
+                            }
+                            else
+                            {
+                                Debug.WriteLine("[NetworkReader.ReadHeader] Failed to read full message");
+                            }
                         }
                         else
                         {
-                            Debug.WriteLine("[NetworkReader.ReadHeader] Failed to read full message");
+                            readType = (MessageType)type;
                         }
                     }
                     else
                     {
+                        readType = MessageType.Invalid;
                         m_PendingType = MessageType.Invalid;
                         Debug.WriteLine("[NetworkReader.ReadHeader] Invalid message type");
                     }
@@ -59,7 +69,7 @@ namespace TcpConnection.Protocol
                 }
             }
 
-            return m_PendingType;
+            return readType;
         }
 
         public bool ReadMessage(Message msg)

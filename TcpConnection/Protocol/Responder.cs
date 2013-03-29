@@ -19,6 +19,9 @@ namespace TcpConnection.Protocol
             // Messages
             m_Handshake = new HandshakeMessage();
             m_Command = new CommandMessage();
+            m_Connected = new ConnectedMessage();
+            m_Disconnected = new DisconnectedMessage();
+            m_SendError = new SendErrorMessage();
         }
 
         public NetworkStream Stream
@@ -61,22 +64,19 @@ namespace TcpConnection.Protocol
             return success;
         }
 
+        public MessageType ReadMessage()
+        {
+            return m_Reader.ReadHeader();
+        }
+
         public bool ReadCommand(uint[] cmdData, ref int cmdDataCount)
         {
             bool success = false;
 
-            MessageType type = m_Reader.ReadHeader();
-            if (type == MessageType.Command)
+            if (m_Reader.ReadMessage(m_Command))
             {
-                if (m_Reader.ReadMessage(m_Command))
-                {
-                    m_Command.Read(cmdData, ref cmdDataCount);
-                    success = true;
-                }
-            }
-            else if(type != MessageType.None)
-            {
-                Debug.WriteLine("[Responder.ReadCommand] Unexpected message (" + type.ToString() + ")");
+                m_Command.Read(cmdData, ref cmdDataCount);
+                success = true;
             }
 
             return success;
@@ -91,11 +91,29 @@ namespace TcpConnection.Protocol
             return m_Writer.Send(m_Command);
         }
 
+        public bool SendConnected()
+        {
+            return m_Writer.Send(m_Connected);
+        }
+
+        public bool SendDisconnected()
+        {
+            return m_Writer.Send(m_Disconnected);
+        }
+
+        public bool SendSendError()
+        {
+            return m_Writer.Send(m_SendError);
+        }
+
         private NetworkStream m_NetworkStream;
         private NetworkReader m_Reader;
         private NetworkWriter m_Writer;
 
         private HandshakeMessage m_Handshake;
         private CommandMessage m_Command;
+        private ConnectedMessage m_Connected;
+        private DisconnectedMessage m_Disconnected;
+        private SendErrorMessage m_SendError;
     }
 }

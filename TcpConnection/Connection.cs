@@ -23,39 +23,30 @@ namespace TcpConnection
 
         public bool IsOpen
         {
-            get { return (m_Client != null && m_Client.Connected); }
+            get { return (m_Sender.State == ConnectionState.Connected || m_Sender.State == ConnectionState.SendError); }
+        }
+
+        public ConnectionState State
+        {
+            get { return m_Sender.State; }
         }
 
         public bool Open()
         {
             if (m_Client == null)
             {
-                try
+                OpenClient();
+            }
+
+            if (m_Client != null)
+            {
+                if (m_Client.Connected)
                 {
-                    TcpClient client = new TcpClient();
-                    client.Connect(m_HostName, m_Port);
-
-                    NetworkStream stream = client.GetStream();
-                    stream.ReadTimeout = 1000;
-                    stream.WriteTimeout = 10;
-                    m_Sender.Stream = stream;
-
-                    // Handshake with the server
-                    if (m_Sender.Handshake())
-                    {
-                        m_Client = client;
-
-                        // Much faster timeout now we're connected
-                        stream.ReadTimeout = 100;
-                    }
-                    else
-                    {
-                        m_Sender.Stream = null;
-                    }
+                    m_Sender.TestConnection();
                 }
-                catch (SocketException e)
+                else
                 {
-                    Debug.WriteLine("[Connection.Open] " + e.Message);
+                    Close();
                 }
             }
 
@@ -68,6 +59,7 @@ namespace TcpConnection
             {
                 m_Client.Close();
                 m_Client = null;
+                Debug.WriteLine("[Connection.OpenClient] Connection to server closed");
             }
         }
 
@@ -79,6 +71,39 @@ namespace TcpConnection
                 success = m_Sender.SendCommand(cmdData, cmdDataCount, rspData, ref rspDataCount);
             }
             return success;
+        }
+
+        private void OpenClient()
+        {
+            try
+            {
+                TcpClient client = new TcpClient();
+                client.Connect(m_HostName, m_Port);
+
+                NetworkStream stream = client.GetStream();
+                stream.ReadTimeout = 1000;
+                stream.WriteTimeout = 10;
+                m_Sender.Stream = stream;
+
+                // Handshake with the server
+                if (m_Sender.Handshake())
+                {
+                    m_Client = client;
+
+                    // Much faster timeout now we're connected
+                    stream.ReadTimeout = 10;
+
+                    Debug.WriteLine("[Connection.OpenClient] Connected to server opened");
+                }
+                else
+                {
+                    client.Close();
+                    m_Sender.Stream = null;
+                }
+            }
+            catch (SocketException)
+            {
+            }
         }
 
         private string m_HostName;

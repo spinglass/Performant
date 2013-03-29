@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -18,7 +19,15 @@ namespace TcpConnection.Protocol
 
             // Messages
             m_Handshake = new HandshakeMessage();
+            m_Connected = new ConnectedMessage();
             m_Command = new CommandMessage();
+
+            m_State = ConnectionState.Disconnected;
+        }
+
+        public ConnectionState State
+        {
+            get { return m_State; }
         }
 
         public NetworkStream Stream
@@ -54,6 +63,22 @@ namespace TcpConnection.Protocol
             return success;
         }
 
+        public ConnectionState TestConnection()
+        {
+            m_State = ConnectionState.Disconnected;
+
+            if (m_Writer.Send(m_Connected))
+            {
+                MessageType type = m_Reader.ReadHeader();
+                if (type == MessageType.Connected)
+                {
+                    m_State = ConnectionState.Connected;
+                }
+            }
+
+            return m_State;
+        }
+
         public bool SendCommand(uint[] cmdData, int cmdDataCount, uint[] rspData, ref int rspDataCount)
         {
             bool success = false;
@@ -73,6 +98,7 @@ namespace TcpConnection.Protocol
                         {
                             m_Command.Read(rspData, ref rspDataCount);
                             success = true;
+                            m_State = ConnectionState.Connected;
                         }
                         else
                         {
@@ -81,17 +107,18 @@ namespace TcpConnection.Protocol
                         break;
 
                     case MessageType.SendError:
-                        break;
-
-                    case MessageType.ConnectionLost:
+                        m_State = ConnectionState.SendError;
                         break;
 
                     default:
+                    case MessageType.Disconnected:
+                        m_State = ConnectionState.Disconnected;
                         break;
                 }
             }
             else
             {
+                m_State = ConnectionState.Disconnected;
                 Debug.WriteLine("[Sender.SendMessage] Send failed");
             }
             return success;
@@ -102,6 +129,9 @@ namespace TcpConnection.Protocol
         private NetworkWriter m_Writer;
 
         private HandshakeMessage m_Handshake;
+        private ConnectedMessage m_Connected;
         private CommandMessage m_Command;
+
+        private ConnectionState m_State;
     }
 }

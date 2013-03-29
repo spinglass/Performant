@@ -4,12 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Monitor
+namespace TcpConnection.Protocol
 {
-    public enum ConnectionState
+    enum MessageType
     {
-        Disconnected,
+        Invalid = 0,
+        None,
+
+        Handshake,
         Connected,
+        Disconnected,
+        Command,
         SendError,
     }
 }

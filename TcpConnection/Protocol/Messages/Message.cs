@@ -9,7 +9,7 @@ namespace TcpConnection.Protocol
 {
     abstract class Message
     {
-        public Message(MessageType type)
+        protected Message(MessageType type)
         {
             m_Type = type;
         }

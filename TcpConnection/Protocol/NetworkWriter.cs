@@ -37,11 +37,18 @@ namespace TcpConnection.Protocol
                 {
                     m_NetworkStream.WriteByte((byte)msg.Type);
                     m_NetworkStream.WriteByte((byte)size);
-                    m_NetworkStream.Write(m_Buffer, 0, size);
+                    if (size > 0)
+                    {
+                        m_NetworkStream.Write(m_Buffer, 0, size);
+                    }
 
                     return true;
                 }
                 catch (SocketException e)
+                {
+                    Debug.WriteLine("[NetworkWriter.Send] " + e.Message);
+                }
+                catch (IOException e)
                 {
                     Debug.WriteLine("[NetworkWriter.Send] " + e.Message);
                 }

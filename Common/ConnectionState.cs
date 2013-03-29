@@ -4,16 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TcpConnection.Protocol
+namespace Common
 {
-    enum MessageType
+    public enum ConnectionState
     {
-        Invalid = 0,
-        None,
-
-        Handshake,
-        Command,
+        Disconnected,
+        Connected,
         SendError,
-        ConnectionLost,
     }
 }

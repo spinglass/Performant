@@ -144,25 +144,51 @@ namespace TcpConnection
                 {
                     m_TcpTimeout.Restart();
 
-                    int cmdBufferCount = 0;
-                    if (m_Responder.ReadCommand(m_CmdData, ref cmdBufferCount))
+                    MessageType type = m_Responder.ReadMessage();
+                    switch (type)
                     {
-                        if (m_PM3State == PM3State.Connected)
-                        {
-                            int rspDataCount = m_RspData.Length;
-                            if (m_Connection.SendCSAFECommand(m_CmdData, cmdBufferCount, m_RspData, ref rspDataCount))
+                        case MessageType.Connected:
+                            // Send connection state
+                            if (m_PM3State == PM3State.Connected)
                             {
-                                m_Responder.SendResponse(m_RspData, rspDataCount);
+                                m_Responder.SendConnected();
                             }
                             else
                             {
+                                m_Responder.SendDisconnected();
                             }
-                        }
-                        else
-                        {
-                            // TEMP: Send empty response
-                            m_Responder.SendResponse(m_RspData, 0);
-                        }
+                            break;
+
+                        case MessageType.Command:
+                            int cmdBufferCount = 0;
+                            if (m_Responder.ReadCommand(m_CmdData, ref cmdBufferCount))
+                            {
+                                if (m_PM3State == PM3State.Connected)
+                                {
+                                    int rspDataCount = m_RspData.Length;
+                                    if (m_Connection.SendCSAFECommand(m_CmdData, cmdBufferCount, m_RspData, ref rspDataCount))
+                                    {
+                                        m_Responder.SendResponse(m_RspData, rspDataCount);
+                                    }
+                                    else
+                                    {
+                                        m_Responder.SendSendError();
+                                    }
+                                }
+                                else
+                                {
+                                    m_Responder.SendDisconnected();
+                                }
+                            }      
+                            break;
+
+                        case MessageType.None:
+                            // Nothing to do
+                            break;
+
+                        default:
+                            Debug.WriteLine("[Responder.ReadCommand] Unexpected message (" + type.ToString() + ")");
+                            break;
                     }
                 }
                 else
