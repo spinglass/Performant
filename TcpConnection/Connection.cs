@@ -91,7 +91,7 @@ namespace TcpConnection
                     m_Client = client;
 
                     // Much faster timeout now we're connected
-                    stream.ReadTimeout = 10;
+                    stream.ReadTimeout = 25;
 
                     Debug.WriteLine("[Connection.OpenClient] Connected to server opened");
                 }
