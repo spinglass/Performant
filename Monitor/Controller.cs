@@ -18,23 +18,20 @@ namespace Monitor
             m_Connection = connection;
             m_Commander = new Commander(m_Connection);
             m_StateReader = new StateReader(m_Commander);
- 
-            m_Thread = new Thread(ThreadProc);
-            m_Thread.Name = "Controller";
-            m_Quit = false;
 
             m_ConnectionState = ConnectionState.Disconnected;
         }
 
         public void Start()
         {
-            m_Thread.Start();
+            m_Quit = false;
+            m_Update = Task.Factory.StartNew(() => Update());
         }
 
         public void Stop()
         {
             m_Quit = true;
-            m_Thread.Join();
+            m_Update.Wait();
         }
 
         public State GetState()
@@ -47,7 +44,7 @@ namespace Monitor
             return state;
         }
 
-        private void ThreadProc()
+        private void Update()
         {
             while (!m_Quit)
             {
@@ -86,16 +83,16 @@ namespace Monitor
                         break;
                 }
 
-                Thread.Sleep(10);
-            }
 
+            }
+  
             m_Connection.Close();
         }
 
         private IConnection m_Connection;
         private Commander m_Commander;
         private StateReader m_StateReader;
-        private Thread m_Thread;
+        private Task m_Update;
         private bool m_Quit;
         private ConnectionState m_ConnectionState;
     }
