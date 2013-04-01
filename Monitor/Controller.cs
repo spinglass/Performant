@@ -13,6 +13,9 @@ namespace Monitor
 {
     public class Controller
     {
+        public delegate void StateUpdateHandler(object sender, State state);
+        public event StateUpdateHandler StateUpdate;
+
         public Controller(IConnection connection)
         {
             m_Connection = connection;
@@ -32,16 +35,6 @@ namespace Monitor
         {
             m_Quit = true;
             m_Update.Wait();
-        }
-
-        public State GetState()
-        {
-            State state = m_StateReader.GetState();
-
-            // Inject connection state
-            state.ConnectionState = m_ConnectionState;
-
-            return state;
         }
 
         private void Update()
@@ -66,6 +59,17 @@ namespace Monitor
                         if (success)
                         {
                             m_ConnectionState = ConnectionState.Connected;
+
+                            // Send latest state to listeners
+                            if (StateUpdate != null)
+                            {
+                                State state = m_StateReader.State;
+
+                                // Inject connection state
+                                state.ConnectionState = m_ConnectionState;
+
+                                StateUpdate(this, state);
+                            }
                         }
                         else
                         {

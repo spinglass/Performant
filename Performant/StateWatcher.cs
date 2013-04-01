@@ -2,6 +2,7 @@
 using Monitor;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -12,7 +13,7 @@ namespace Performant
 {
     class StateWatcher
     {
-        class Updater
+        private class Updater
         {
             public delegate Object Getter(State state);
             public delegate void Setter(Object tgt);
@@ -47,23 +48,13 @@ namespace Performant
             m_Dispatcher = dispatcher;
             m_View = stateView;
             m_Controller = controller;
-            m_Thread = new Thread(ThreadProc);
-            m_Thread.Name = "StateWatcher";
-            m_Update = new Action(Update);
-            m_InvokeTimeout = new TimeSpan(1000000); // 100 ms
+            m_InvokeTimeout = new TimeSpan(500000); // 50 ms
+            m_UpdateTimer = Stopwatch.StartNew();
 
             CreateUpdaters();
-        }
 
-        public void Start()
-        {
-            m_Thread.Start();
-        }
-
-        public void Stop()
-        {
-            m_Quit = true;
-            m_Thread.Join();
+            // Register for state updates
+            m_Controller.StateUpdate += OnStateUpdate;
         }
 
         private void CreateUpdaters()
@@ -88,35 +79,33 @@ namespace Performant
             m_Updaters.Add(new Updater((State state) => state.StrokeRate, (Object value) => m_View.StrokeRate = (uint)value));
         }
 
-        private void ThreadProc()
+        private void OnStateUpdate(object sender, State state)
         {
-            while (!m_Quit)
+            if (m_UpdateTimer.ElapsedMilliseconds > 100)
             {
-                m_Dispatcher.Invoke(DispatcherPriority.Normal, m_InvokeTimeout, m_Update);
+                m_UpdateTimer.Restart();
 
-                Thread.Sleep(100);
+                // Send state to UI
+                State backupState = state.Clone();
+                Action action = () => UpdateUI(backupState);
+                m_Dispatcher.Invoke(DispatcherPriority.Normal, m_InvokeTimeout, action);
             }
-        }
+       }
 
-        private void Update()
+        private void UpdateUI(State state)
         {
-            // Get the current (latest) state from the monitor
-            State state = m_Controller.GetState();
-            
             // Apply all the values of interest from the state to the view
             foreach (Updater updater in m_Updaters)
             {
                 updater.Update(state);
             }
-       }
+        }
 
         private Dispatcher m_Dispatcher;
         private StateView m_View;
         Controller m_Controller;
-        private Thread m_Thread;
-        private Action m_Update;
-        private bool m_Quit;
         private List<Updater> m_Updaters;
         private TimeSpan m_InvokeTimeout;
+        private Stopwatch m_UpdateTimer;
     }
 }

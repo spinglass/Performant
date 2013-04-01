@@ -34,14 +34,9 @@ namespace Monitor.Comms
             return success;
         }
 
-        public State GetState()
+        public State State
         {
-            State state;
-            lock (m_State)
-            {
-                state = m_State.Clone();
-            }
-            return state;
+            get { return m_State; }
         }
 
         private bool IsWorkoutActive()
@@ -149,25 +144,22 @@ namespace Monitor.Comms
 
         private void UpdateState()
         {
-            lock (m_State)
-            {
-                // PM3 commands
-                m_State.DragFactor = m_DragFactorCommand.DragFactor;
-                m_State.StrokeState = m_StrokeStateCommand.StrokeState;
-                m_State.WorkDistance = m_WorkDistanceCommand.WorkDistance;
-                m_State.WorkoutState = m_WorkoutStateCommand.WorkoutState;
-                m_State.WorkoutType = m_WorkoutTypeCommand.WorkoutType;
-                m_State.WorkTime = m_WorkTimeCommand.WorkTime;
+            // PM3 commands
+            m_State.DragFactor = m_DragFactorCommand.DragFactor;
+            m_State.StrokeState = m_StrokeStateCommand.StrokeState;
+            m_State.WorkDistance = m_WorkDistanceCommand.WorkDistance;
+            m_State.WorkoutState = m_WorkoutStateCommand.WorkoutState;
+            m_State.WorkoutType = m_WorkoutTypeCommand.WorkoutType;
+            m_State.WorkTime = m_WorkTimeCommand.WorkTime;
 
-                // CSAFE commands
-                m_State.Calories = m_CaloriesCommand.Calories;
-                m_State.Distance = m_DistanceCommand.Distance;
-                m_State.HeartRate = m_HeartRateCommand.HeartRate;
-                m_State.Power = m_PowerCommand.Power;
-                m_State.Pace = m_PaceCommand.Pace;
-                m_State.StrokeRate = m_CadenceCommand.StrokeRate;
-                m_State.Time = m_TimeCommand.Time;
-            }
+            // CSAFE commands
+            m_State.Calories = m_CaloriesCommand.Calories;
+            m_State.Distance = m_DistanceCommand.Distance;
+            m_State.HeartRate = m_HeartRateCommand.HeartRate;
+            m_State.Power = m_PowerCommand.Power;
+            m_State.Pace = m_PaceCommand.Pace;
+            m_State.StrokeRate = m_CadenceCommand.StrokeRate;
+            m_State.Time = m_TimeCommand.Time;
         }
 
         private Commander m_Commander;

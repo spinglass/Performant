@@ -38,12 +38,10 @@ namespace Performant
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             m_Controller.Start();
-            m_StateWatcher.Start();
         }
 
         private void OnClosing(object sender, CancelEventArgs e)
         {
-            m_StateWatcher.Stop();
             m_Controller.Stop();
         }
 
