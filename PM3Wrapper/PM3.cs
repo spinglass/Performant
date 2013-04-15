@@ -44,15 +44,15 @@ namespace PM3Wrapper
             ushort error;
 
             StringBuilder hwVersion = new StringBuilder(20);
-            error = PM3DDI.tkcmdsetDDI_hw_version((ushort)port, hwVersion, (ushort)hwVersion.Capacity);
+            error = PM3DDI.tkcmdsetDDI_hw_version((ushort)port, hwVersion, (ushort)(hwVersion.Capacity + 1));
             PM3Exception.ValidateDDI(error);
 
             StringBuilder fwVersion = new StringBuilder(20);
-            error = PM3DDI.tkcmdsetDDI_fw_version((ushort)port, fwVersion, (ushort)fwVersion.Capacity);
+            error = PM3DDI.tkcmdsetDDI_fw_version((ushort)port, fwVersion, (ushort)(fwVersion.Capacity + 1));
             PM3Exception.ValidateDDI(error);
 
             StringBuilder serialNumber = new StringBuilder(16);
-            error = PM3DDI.tkcmdsetDDI_serial_number((ushort)port, serialNumber, (byte)serialNumber.Capacity);
+            error = PM3DDI.tkcmdsetDDI_serial_number((ushort)port, serialNumber, (byte)(serialNumber.Capacity + 1));
             PM3Exception.ValidateDDI(error);
 
             UnitInfo info = new UnitInfo();

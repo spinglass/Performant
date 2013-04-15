@@ -49,10 +49,10 @@ namespace PM3Wrapper
             if (error != 0)
             {
                 StringBuilder name = new StringBuilder(20);
-                PM3Csafe.tkcmdsetCSAFE_get_error_name(error, name, (ushort)name.Capacity);
+                PM3Csafe.tkcmdsetCSAFE_get_error_name(error, name, (ushort)(name.Capacity + 1));
 
                 StringBuilder text = new StringBuilder(400);
-                PM3Csafe.tkcmdsetCSAFE_get_error_text(error, text, (ushort)text.Capacity);
+                PM3Csafe.tkcmdsetCSAFE_get_error_text(error, text, (ushort)(text.Capacity + 1));
 
                 Throw(error, name, text);
             }
@@ -63,10 +63,10 @@ namespace PM3Wrapper
             if (error != 0)
             {
                 StringBuilder name = new StringBuilder(20);
-                PM3DDI.tkcmdsetDDI_get_error_name(error, name, (ushort)name.Capacity);
+                PM3DDI.tkcmdsetDDI_get_error_name(error, name, (ushort)(name.Capacity + 1));
 
                 StringBuilder text = new StringBuilder(400);
-                PM3DDI.tkcmdsetDDI_get_error_text(error, text, (ushort)text.Capacity);
+                PM3DDI.tkcmdsetDDI_get_error_text(error, text, (ushort)(text.Capacity + 1));
 
                 Throw(error, name, text);
             }
@@ -77,10 +77,10 @@ namespace PM3Wrapper
             if (error != 0)
             {
                 StringBuilder name = new StringBuilder(20);
-                PM3USB.tkcmdsetUSB_get_error_name(error, name, (ushort)name.Capacity);
+                PM3USB.tkcmdsetUSB_get_error_name(error, name, (ushort)(name.Capacity + 1));
 
                 StringBuilder text = new StringBuilder(400);
-                PM3USB.tkcmdsetUSB_get_error_text(error, text, (ushort)text.Capacity);
+                PM3USB.tkcmdsetUSB_get_error_text(error, text, (ushort)(text.Capacity + 1));
 
                 Throw(error, name, text);
             }
