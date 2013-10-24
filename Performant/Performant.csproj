@@ -103,13 +103,13 @@
       <Project>{87e9d219-97d4-427d-a0ea-25b75e4d2d03}</Project>
       <Name>Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DirectConnection\DirectConnection.csproj">
+      <Project>{1ad794e9-efde-43b0-aa1f-844f00656dae}</Project>
+      <Name>DirectConnection</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Monitor\Monitor.csproj">
       <Project>{d989bc6e-480d-4e13-bdbe-24ccdbc7bbe8}</Project>
       <Name>Monitor</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TcpConnection\TcpConnection.csproj">
-      <Project>{757c3b0f-6836-4354-adec-b3d990031f37}</Project>
-      <Name>TcpConnection</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
